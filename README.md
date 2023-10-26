@@ -6,8 +6,12 @@ CrumbAI is an AI-Powered web application designed to simplify video content crea
 
 ## Getting Started
 
-### Prerequisites
+## Prerequisites
 
-### Installation
+## Installation
 
-### Usage
+## Usage
+
+## Project Info
+
+### Figma Design
