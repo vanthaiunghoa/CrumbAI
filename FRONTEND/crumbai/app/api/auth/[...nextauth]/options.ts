@@ -17,7 +17,7 @@ export const options: NextAuthOptions = {
             clientSecret: process.env.GITHUB_SECRET as string
         }),
         CredentialsProvider({
-            name: "Sign In",
+            name: "",
             credentials: {
                 email: {
                     label: "Email:",
@@ -31,17 +31,6 @@ export const options: NextAuthOptions = {
                 }
             },
             async authorize(credentials) {
-                // Need to verify credentials in database
-                // https://next-auth.js.org/configuration/providers/credentials
-
-                // const user = { id: "42", email: "hamizarif17@gmail.com", password: "nextauth"}
-
-                // if (credentials?.email === user.email && credentials?.password === user.password) {
-                //     return user
-                // } else {
-                //     return null
-                // }
-
                 if (!credentials?.email || !credentials.password) {
                     return null
                 }

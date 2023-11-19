@@ -1,38 +1,48 @@
-'use client'
+'use client';
 
-import { Alert } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { Alert } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { getProviders, signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 export const Form = () => {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    const fetchProviders = async () => {
+      const fetchedProviders = await getProviders();
+      setProviders(fetchedProviders);
+    };
+
+    fetchProviders();
+  }, []);
 
   const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const res = await signIn('credentials', {
         redirect: false,
         email,
         password,
-        callbackUrl
-      })
-      console.log('Res', res)
+        callbackUrl,
+      });
+      console.log('Res', res);
       if (!res?.error) {
-        router.push(callbackUrl)
+        router.push(callbackUrl);
       } else {
-        setError('Invalid email or password')
+        setError('Invalid email or password');
       }
     } catch (err: any) {}
-  }
+  };
 
   return (
     <form onSubmit={onSubmit} className="space-y-12 w-full sm:w-[400px]">
@@ -64,6 +74,19 @@ export const Form = () => {
           Login
         </Button>
       </div>
+      <div className="mt-4">
+        <p className="text-center">Or sign in with:</p>
+        <div className="flex justify-center space-x-4 mt-2">
+          {providers &&
+            Object.values(providers).map((provider) => (
+              <div key={provider.name} style={{ marginBottom: 0 }}>
+                <button onClick={() => signIn(provider.id)}>
+                  {provider.name}
+                </button>
+              </div>
+            ))}
+        </div>
+      </div>
     </form>
-  )
-}
+  );
+};
