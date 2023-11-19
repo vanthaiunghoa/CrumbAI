@@ -5,6 +5,9 @@ import { prisma } from '@/lib/prisma'
 import { compare } from 'bcrypt'
 
 export const options: NextAuthOptions = {
+    pages: {
+        signIn: '/login'
+    },
     session: {
         strategy: 'jwt'
     },
