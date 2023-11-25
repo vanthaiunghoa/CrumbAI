@@ -18,6 +18,9 @@ def main():
     else:
         print('Video does not exist in database. Need to process it.')
         filename = download(youtube_url)
+        if filename is None:
+            print('Error downloading video.')
+            return
         transcript = transcribe(youtube_url)
         interesting_parts = open_ai.interesting_parts(transcript)
         print(interesting_parts)
