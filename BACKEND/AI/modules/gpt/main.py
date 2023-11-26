@@ -13,36 +13,37 @@ class gpt:
             {
                 "start_time": 10.00,
                 "end_time": 30.00,
-                "text": "This is the first interesting part of the video",
+                "description": "This is the first interesting part of the video",
                 "duration": 20.00
             },
             {
                 "start_time": 60.00,
                 "end_time": 90.00,
-                "text": "This is the second interesting part of the video",
+                "description": "This is the second interesting part of the video",
                 "duration": 30.00
             },
             {
                 "start_time": 120.00,
                 "end_time": 150.00,
-                "text": "This is the third interesting part of the video",
+                "description": "This is the third interesting part of the video",
                 "duration": 30.00
             }
         ]
     '''
 
     def interesting_parts(self, transcript):
-        prompt = f"I am going to pass you the transcript of a video, identify {self.amount_of_interesting_parts} interesting parts of the video. Make sure they are around 30 seconds in duration, and provide the accurate timestamps being passed. Follow this format: {self.formatted_example}. Return in JSON format."
+        print('Analysing transcript...')
+        prompt = f"Given the following video transcript, analyse each part for potential virality and identify {self.amount_of_interesting_parts} most viral segments from the transcript. Each segment should have nothing less than 50 seconds in duration. Do not cut the conversation off and let it finish before cutting it out. The provided transcript is as follows: {transcript}. Based on your analysis, return a JSON document containing the timestamps (start and end), the description of the viral part, and its duration. The JSON document should follow this format: {self.formatted_example}. Please replace the placeholder values with the actual results from your analysis, and name the key of the JSON 'segments'."
+        system = f"You are a Viral Segment Identifier, an AI system that analyses a video's transcript and predict which segments might go viral on social media platforms. You use factors such as emotional impact, humor, unexpected content, and relevance to current trends to make your predictions. You return a structured JSON document detailing the start and end times, the description, and the duration of the potential viral segments."
+
         messages = [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": transcript}
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt}
         ]
-        print(self.model)
 
         return self.client.chat.completions.create(
             model=self.model,
             messages=messages,
-            temperature=0.1,
             response_format={"type": "json_object"}
         ).choices[0].message.content
 
