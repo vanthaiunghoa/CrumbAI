@@ -3,6 +3,8 @@ import os
 from modules.gpt.main import gpt
 from modules.downloader.main import download
 from modules.transcribe.main import transcribe
+from modules.editing.main import cut_video_up
+import json
 def main():
     print('Starting Crumb AI...')
     load_dotenv()
@@ -10,7 +12,7 @@ def main():
     open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
 
     # Test: passed youtube url
-    youtube_url = 'https://www.youtube.com/watch?v=LRMfYOynfGg'
+    youtube_url = 'https://www.youtube.com/watch?v=Zr1D3FYcV3Y'
 
     if does_it_exist(youtube_url):
         print('Video already exists in database. Need to return already processed videos.')
@@ -23,7 +25,14 @@ def main():
             return
         transcript = transcribe(youtube_url)
         interesting_parts = open_ai.interesting_parts(transcript)
-        print(interesting_parts)
+        print('Received interesting parts from GPT')
+        content = json.loads(interesting_parts)
+        formatted_content = content["segments"]
+        print(formatted_content)
+        cut_video_up(filename, formatted_content)
+
+
+
 
 
 
