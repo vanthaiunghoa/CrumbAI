@@ -1,5 +1,6 @@
 import os
 import math
+import subprocess
 from datetime import datetime
 import ffmpeg
 ## Crop the video
@@ -21,8 +22,10 @@ def cut_video(filename, start_time, end_time, duration, description, i):
     # Small fix for the filename
     if '.mp4' in filename:
         filename = filename.replace('.mp4', '')
-    print(start_time)
-    os.system(f"ffmpeg -y -hwaccel cuda -i tmp/{filename}.mp4 -crf 5 -b:v 6000k -ss {start_time} -to {end_time} -c copy tmp/{i}_{filename}.mp4 -r 25")
+    os.system(f"ffmpeg -i tmp/{filename}.mp4 -ss {start_time} -to {end_time} -crf 20 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_{filename}.mp4 -hide_banner -loglevel error")
     print(f'Video: {i}_{filename} cut. Description: {description}. Duration of cut: {duration} seconds.')
+    # Save video name and description to file
+    
     print('Video cut successfully.')
     return
+
