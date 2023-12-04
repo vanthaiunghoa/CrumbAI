@@ -1,5 +1,8 @@
-from openai import OpenAI
+import itertools
+import json
 
+from openai import OpenAI
+import math
 
 class gpt:
 
@@ -33,18 +36,55 @@ class gpt:
 
     def interesting_parts(self, transcript):
         print('Analysing transcript...')
-        prompt = f"Given the following video transcript, analyse each part for potential virality and identify {self.amount_of_interesting_parts} most viral segments from the transcript. Each segment should have nothing less than 50 seconds in duration. Do not cut the conversation off and let it finish before cutting it out. The provided transcript is as follows: {transcript}. Based on your analysis, return a JSON document containing the timestamps (start and end), the description of the viral part, and its duration. The JSON document should follow this format: {self.formatted_example}. Please replace the placeholder values with the actual results from your analysis, and name the key of the JSON 'segments'."
-        system = f"You are a Viral Segment Identifier, an AI system that analyses a video's transcript and predict which segments might go viral on social media platforms. You use factors such as emotional impact, humor, unexpected content, and relevance to current trends to make your predictions. You return a structured JSON document detailing the start and end times, the description, and the duration of the potential viral segments."
+        try:
+            prompt = f"Given the following video transcript, analyse each part for potential virality and identify {self.amount_of_interesting_parts} most viral segments from the transcript. Each segment should have nothing less than 50 seconds in duration, for a clip contains an interesting conversation, you can ignore the duration requirement if it goes beyond it. Do not cut the conversation off and let it finish before cutting it out. The provided transcript is as follows: {transcript}. Based on your analysis, return a JSON document containing the timestamps (start and end), the description of the viral part, and its duration. The JSON document should follow this format: {self.formatted_example}. Please replace the placeholder values with the actual results from your analysis, and name the key of the JSON 'segments'."
+            system = f"You are a Viral Segment Identifier, an AI system that analyses a video's transcript and predict which segments might go viral on social media platforms. You use factors such as emotional impact, humor, unexpected content, and relevance to current trends to make your predictions. You return a structured JSON document detailing the start and end times, the description, and the duration of the potential viral segments."
 
-        messages = [
-            {"role": "system", "content": system},
-            {"role": "user", "content": prompt}
-        ]
+            messages = [
+                {"role": "system", "content": system},
+                {"role": "user", "content": prompt}
+            ]
 
-        return self.client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            response_format={"type": "json_object"}
-        ).choices[0].message.content
+            return self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                response_format={"type": "json_object"}
+            ).choices[0].message.content
+
+        except Exception as e:
+            if 'This model\'s maximum context length is 16385 tokens. However, your messages resulted' in str(e):
+                print('Transcript is too long, shortening it...')
+                split_transcript_1, split_transcript_2 = self.split_sequence(transcript)
+                first_half = json.loads(self.interesting_parts(split_transcript_1))
+                second_half = json.loads(self.interesting_parts(split_transcript_2))
+                merged_result = {
+                    "segments": first_half["segments"] + second_half["segments"]
+                }
+
+                return json.dumps(merged_result)
+            else:
+                print('Error analysing transcript.')
+                print(e)
+                return None
+
+    def merge_two_dicts(self, processed_part_1, processed_part_2):
+        processed_part_1 = processed_part_1["segments"]
+        processed_part_2 = processed_part_2["segments"]
+        return {"segments": processed_part_1 + processed_part_2}
+
+    def split_sequence(self, sequence):
+        n = len(sequence) // 2
+        i = iter(sequence)
+
+        # Use islice to get the first half
+        first_half = list(itertools.islice(i, n))
+
+        # Use the rest of the iterator to get the second half
+        second_half = list(i)
+
+        return first_half, second_half
+
+
+
 
 
