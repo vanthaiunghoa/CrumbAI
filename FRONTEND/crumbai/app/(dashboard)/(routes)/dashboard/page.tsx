@@ -1,15 +1,13 @@
-import Link from 'next/link'
-import { Button } from "@/components/ui/button";
-import { getServerSession } from 'next-auth';
+// import Link from 'next/link'
+// import { getServerSession } from 'next-auth';
+// const session = await getServerSession();
+// session?.user?.email
 
-const DashboardPage = async () => {
-  const session = await getServerSession();
-
+const DashboardPage = () => {
   return (
-    <>
-      <p>Dashboard Page: {session?.user?.email}</p>
-      <Link href="/api/auth/signout"><Button>Sign Out</Button></Link>
-    </>
+    <div>
+      <p>Dashbaord Page</p>
+    </div>
   );
 };
 
