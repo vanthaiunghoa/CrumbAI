@@ -1,5 +1,7 @@
 from dotenv import load_dotenv
 import os
+
+from modules.face_detection.main import face_dectection_and_crop
 from modules.gpt.main import gpt
 from modules.downloader.main import download
 from modules.transcribe.main import transcribe
@@ -12,7 +14,7 @@ def main():
     open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
 
     # Test: passed youtube url
-    youtube_url = 'https://www.youtube.com/watch?v=Zr1D3FYcV3Y'
+    youtube_url = 'https://www.youtube.com/watch?v=h_SMkjLvT9g'
 
     if does_it_exist(youtube_url):
         print('Video already exists in database. Need to return already processed videos.')
@@ -30,6 +32,7 @@ def main():
         formatted_content = content["segments"]
         print(formatted_content)
         cut_video_up(filename, formatted_content)
+        face_dectection_and_crop(filename)
 
 
 
