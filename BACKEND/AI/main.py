@@ -34,6 +34,9 @@ def main():
         formatted_content = content["segments"]
         print(formatted_content)
         cut_video_up(filename, formatted_content)
+        print('Finished cutting video up.')
+        print('Saving to database...')
+        save_to_database(db, youtube_url, filename, formatted_content)
         face_dectection_and_crop(filename)
 
 
@@ -50,15 +53,31 @@ def does_it_exist(db, youtube_url):
     if result is None:
         return False
     else:
-        # Get videos from the table
         videos = result[0].videos
-        # Check if they exist on the disk
         for video in videos:
-            if not os.path.exists(f'tmp/{video}.mp4'):
+            if not os.path.exists(f'tmp/{video.filename}'):
                 print('Video does not exist on disk. Need to process it.')
                 return False
 
-        return videos
+        return True
+
+def save_to_database(db, youtube_url, filename, formatted_content):
+    table = {}
+    for i in range(len(formatted_content)):
+        table[i] = {
+            "start_time": formatted_content[i]["start_time"],
+            "end_time": formatted_content[i]["end_time"],
+            "description": formatted_content[i]["description"],
+            "duration": formatted_content[i]["duration"],
+            "filename": f'{i}_{filename}'
+        }
+
+    cursor = db.cursor()
+    query = "INSERT INTO videos (video_url, videos, user) VALUES (%s, %s, %s)"
+    values = (youtube_url, json.dumps(table), 'test')
+    cursor.execute(query, values)
+    db.commit()
+    return
 
 def get_existing_data(youtube_url):
     ## todo: return all the data from the database, like how many videos have been processed, etc.
