@@ -7,6 +7,8 @@ from modules.downloader.main import download
 from modules.transcribe.main import transcribe
 from modules.editing.main import cut_video_up
 from modules.db.main import connect
+from modules.subtitles.main import create_srt
+from modules.subtitles.main import create_subtitles
 import json
 def main():
     print('Starting Crumb AI...')
@@ -16,7 +18,7 @@ def main():
     open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
 
     # Test: passed youtube url
-    youtube_url = 'https://www.youtube.com/watch?v=h_SMkjLvT9g'
+    youtube_url = 'https://www.youtube.com/watch?v=nexAoj8r0ss'
 
     if does_it_exist(db, youtube_url):
         print('Video already exists in database. Need to return already processed videos.')
@@ -37,8 +39,9 @@ def main():
         print('Finished cutting video up.')
         print('Saving to database...')
         save_to_database(db, youtube_url, filename, formatted_content)
-        face_dectection_and_crop(filename)
-
+        #face_dectection_and_crop(filename)
+        create_srt(filename)
+        create_subtitles(filename)
 
 
 
