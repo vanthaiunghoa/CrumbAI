@@ -1,13 +1,10 @@
 from pytube import YouTube
-import uuid
 
-def download(url):
+def download(url, filename):
     print('Downloading video...')
     yt = YouTube(url)
     video = yt.streams.filter(file_extension='mp4').get_highest_resolution()
-    filename = format('%s.mp4' % uuid.uuid4()).replace('-', '_')
     print('Downloading video to %s...' % filename)
-
 
     try:
         video.download(filename=filename, output_path='tmp/')
