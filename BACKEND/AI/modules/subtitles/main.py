@@ -1,7 +1,5 @@
 import os
 import whisper
-from typing import Iterator, TextIO
-import ffmpeg # test for subtitles
 
 
 def create_srt(filename):
@@ -22,11 +20,7 @@ def create_srt(filename):
             with open(subtitle_path, 'w') as empty_srt_file:
                 pass
 
-            # Remove .mp4 from original filename
-            original_filename = filename[:-4]
-            srt_file = f"tmp/{i}_{original_filename}.srt"
-
-            result = model.transcribe(f"tmp/{i}_{original_filename}.mp4")
+            result = model.transcribe(f"tmp/{i}_{filename[:-4]}.mp4")
 
             with open(subtitle_path, "w") as srt_file_writer:
                 write_srt(result["segments"], file=srt_file_writer)
@@ -46,12 +40,13 @@ def create_subtitles(filename):
             processed_file += 1
             print(f'Processing file {i}_{filename}')
             try:
-                font = "force_style='Alignment=2,MarginV=40,MarginL=55,MarginR=55,Fontname=Noto Sans,Fontsize=11,PrimaryColour=\\&H00d7ff\\&,Outline=1,Shadow=1,BorderStyle=1'"
+                font = "force_style='FontName=Arial,FontSize=20,PrimaryColour=&H00ffffff,OutlineColour=&H00000000," \
+                    "BackColour=&H80000000,Bold=0,Italic=0,Alignment=10'"
                 sub_format = f"subtitles=tmp/{i}_{filename[:-4]}.srt:{font}"
 
                 os.system(
                     f'ffmpeg -i tmp/{i}_{filename} -vf "{sub_format}" tmp/{i}_{filename[:-4]}_subtitled.mp4 -hide_banner -loglevel error')
-
+                print(f'Finished processing file {i}_{filename}')
             except Exception as e:
                 print('Error creating subtitles.')
                 print(e)
@@ -62,7 +57,7 @@ def create_subtitles(filename):
 
 
 def format_timestamp(seconds, always_include_hours=False):
-    assert seconds >= 0, "non-negative timestamp expected"
+    if seconds < 0: return None
     milliseconds = round(seconds * 1000.0)
     hours = milliseconds // 3_600_000
     milliseconds -= hours * 3_600_000
