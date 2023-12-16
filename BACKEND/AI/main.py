@@ -1,54 +1,136 @@
 from dotenv import load_dotenv
 import os
 
+from flask import Flask, request, jsonify
+from rq import Queue
+from redis import Redis
+import base64
+
 from modules.face_detection.main import crop_video
 from modules.gpt.main import gpt
 from modules.downloader.main import download
 from modules.transcribe.main import transcribe
 from modules.editing.main import cut_video_up
-from modules.db.main import connect
+from modules.db.main import connect, set_status, create_new_video, get_status
 from modules.subtitles.main import create_srt
 from modules.subtitles.main import create_subtitles
+from modules.utils.main import env
+from modules.utils.main import create_unique_id
 import json
-def main():
-    print('Starting Crumb AI...')
-    load_dotenv()
-    db = connect(env('DB_HOST'), env('DB_USER'), env('DB_PASSWORD'), env('DB_DATABASE'))
 
-    open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
 
-    # Test: passed youtube url
-    youtube_url = 'https://www.youtube.com/watch?v=nexAoj8r0ss'
+## Init API, Redis, and RQ
+app = Flask(__name__)
+redis_connection = Redis(host='redis')
+q = Queue(connection=redis_connection)
 
-    if does_it_exist(db, youtube_url):
+print('Starting Crumb AI...')
+load_dotenv()
+db = connect(env('DB_HOST'), env('DB_USER'), env('DB_PASSWORD'), env('DB_DATABASE'))
+open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
+
+
+# Bearer Token Check
+@app.before_request
+def bearer_token_check():
+    bearer_token = request.headers.get('Authorization')
+    if bearer_token is None:
+        return jsonify({'error': 'No bearer token provided.'}), 401
+    else:
+        if bearer_token != os.getenv('BEARER_TOKEN'):
+            return jsonify({'error': 'Invalid bearer token provided.'}), 401
+        else:
+            return
+
+
+## /create route
+@app.route('/create', methods=['POST'])
+def create():
+    # Get youtube url from body, and user id
+    body = request.get_json()
+    youtube_url = body['youtube_url']
+    user_id = body['user_id']
+    settings = body['settings']
+
+    if does_it_exist(youtube_url):
         print('Video already exists in database. Need to return already processed videos.')
-        return
+        videos = get_existing_data(youtube_url)
+        ## test return for now
+        return jsonify({'videos': videos}), 200
     else:
         print('Video does not exist in database. Need to process it.')
-        filename = download(youtube_url)
+        unique_id = create_unique_id()
+        create_new_video(db, unique_id, user_id, 'Video is being downloaded.')
+        print('Downloading video...')
+        filename = download(youtube_url, unique_id)
         if filename is None:
             print('Error downloading video.')
             return
+        set_status(db, unique_id, user_id, 'Currently transcribing the video.')
         transcript = transcribe(youtube_url)
+        set_status(db, unique_id, user_id, 'Analyzing the content.')
         interesting_parts = open_ai.interesting_parts(transcript)
-        print('Received interesting parts from GPT')
         content = json.loads(interesting_parts)
         formatted_content = content["segments"]
-        print(formatted_content)
+        set_status(db, unique_id, user_id, 'Editing the video.')
         cut_video_up(filename, formatted_content)
-        print('Finished cutting video up.')
-        print('Saving to database...')
-        save_to_database(db, youtube_url, filename, formatted_content)
-        crop_video(filename)
-        create_srt(filename)
-        create_subtitles(filename)
+
+        save_to_database(youtube_url, filename, formatted_content)
+
+        if settings['face_detection']:
+            set_status(db, unique_id, user_id, 'Cropping the video.')
+            crop_video(filename)
+
+        if settings['subtitles']:
+            set_status(db, unique_id, user_id, 'Creating subtitles.')
+            create_srt(filename)
+            create_subtitles(filename)
+
+        set_status(db, unique_id, user_id, 'And we are done!')
 
 
+# status route
+@app.route('/status', methods=['POST'])
+def status():
+    body = request.get_json()
+    unique_id = body['unique_id']
+    user_id = body['user_id']
+    status = get_status(db, unique_id, user_id)
 
+    return jsonify({'status': status}), 200
 
+# /get-clips route
+@app.route('/get-clips', methods=['POST'])
+def get_clips():
+    body = request.get_json()
+    user_id = body['user_id']
 
+    cursor = db.cursor()
+    query = f"SELECT * FROM videos WHERE user = '{user_id}'"
+    cursor.execute(query)
+    result = cursor.fetchone()
+    if result is None:
+        return jsonify({'error': 'No videos found.'}), 404
+    else:
+        return jsonify({'videos': result[0]}), 200
 
-def does_it_exist(db, youtube_url):
+# /get-clip route
+@app.route('/get-clip', methods=['POST'])
+def get_clip():
+    body = request.get_json()
+    user_id = body['user_id']
+    video_id = body['video_id']
+
+    cursor = db.cursor()
+    query = f"SELECT * FROM videos WHERE user = '{user_id}' AND video_id = '{video_id}'"
+    cursor.execute(query)
+    result = cursor.fetchone()
+    if result is None:
+        return jsonify({'error': 'No video found.'}), 404
+    else:
+        return jsonify({'video': result[0]}), 200
+
+def does_it_exist(youtube_url):
     cursor = db.cursor()
     query = f"SELECT * FROM videos WHERE video_url = '{youtube_url}'"
     cursor.execute(query)
@@ -64,7 +146,7 @@ def does_it_exist(db, youtube_url):
 
         return True
 
-def save_to_database(db, youtube_url, filename, formatted_content):
+def save_to_database(youtube_url, filename, formatted_content):
     table = {}
     for i in range(len(formatted_content)):
         table[i] = {
@@ -82,7 +164,7 @@ def save_to_database(db, youtube_url, filename, formatted_content):
     db.commit()
     return
 
-def get_existing_data(db, youtube_url):
+def get_existing_data(youtube_url):
     ## todo: return all the data from the database, like how many videos have been processed, etc.
     cursor = db.cursor()
     query = f"SELECT * FROM videos WHERE video_url = '{youtube_url}'"
@@ -99,11 +181,6 @@ def get_existing_data(db, youtube_url):
 
     return files
 
-def env(variable):
-    return os.getenv(variable)
-
-
-
 
 if __name__ == '__main__':
-    main()
+    app.run(host='0.0.0.0')
