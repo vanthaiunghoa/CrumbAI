@@ -11,12 +11,10 @@ def create_srt(filename):
     for i in range(10):
         if os.path.exists(f"tmp/{i}_{filename}"):
             subtitle_path = f"tmp/{i}_{filename[:-4]}.srt"
-            # create empty srt file
             open(subtitle_path, 'a').close()
             processed_file += 1
             print(f'Processing file {i}_{filename}')
 
-            # Ensure SRT file exists and is empty
             with open(subtitle_path, 'w') as empty_srt_file:
                 pass
 
