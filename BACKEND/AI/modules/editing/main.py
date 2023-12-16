@@ -1,9 +1,4 @@
 import os
-import math
-import subprocess
-from datetime import datetime
-import ffmpeg
-## Crop the video
 def crop_video():
     return
 
