@@ -12,12 +12,12 @@ def get_transcript(video_id):
     return transcript
 
 
-def format_transcript(t):
+def format_transcript(formatted_transcript):
     formatted = ''
-    for entry in t:
+    for entry in formatted_transcript:
         start_time = "{:.2f}".format(entry['start'])
         end_time = "{:.2f}".format(entry['start'] + entry['duration'])
         text = entry['text']
         formatted += f"{start_time} --> {end_time} : {text}\n"
 
-    return t
+    return formatted_transcript
