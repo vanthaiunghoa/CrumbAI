@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 
-from modules.face_detection.main import face_dectection_and_crop
+from modules.face_detection.main import crop_video
 from modules.gpt.main import gpt
 from modules.downloader.main import download
 from modules.transcribe.main import transcribe
@@ -39,7 +39,7 @@ def main():
         print('Finished cutting video up.')
         print('Saving to database...')
         save_to_database(db, youtube_url, filename, formatted_content)
-        #face_dectection_and_crop(filename)
+        crop_video(filename)
         create_srt(filename)
         create_subtitles(filename)
 
@@ -82,9 +82,22 @@ def save_to_database(db, youtube_url, filename, formatted_content):
     db.commit()
     return
 
-def get_existing_data(youtube_url):
+def get_existing_data(db, youtube_url):
     ## todo: return all the data from the database, like how many videos have been processed, etc.
-    return None
+    cursor = db.cursor()
+    query = f"SELECT * FROM videos WHERE video_url = '{youtube_url}'"
+    cursor.execute(query)
+    files = []
+
+    # Get files from drive
+    if query['videos'] is not None:
+        for video in query['videos']:
+            if not os.path.exists(f'tmp/{video.filename}'):
+                print('Video does not exist on disk. Need to process it.')
+                files.append(video.filename)
+
+
+    return files
 
 def env(variable):
     return os.getenv(variable)
