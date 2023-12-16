@@ -1,8 +1,7 @@
 import itertools
 import json
-
 from openai import OpenAI
-import math
+
 
 class gpt:
 
