@@ -4,9 +4,34 @@ import subprocess
 import cv2 as cv
 import ffmpeg
 
+def detect_amt_of_faces(video_file):
+    detected_faces = []
+    face_cascade = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_default.xml")
+    video_capture = cv.VideoCapture(video_file)
+
+    while True:
+        ret, frame = video_capture.read()
+        if not ret:
+            break
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        detected_faces.append(len(faces))
+
+    video_capture.release()
+    cv.destroyAllWindows()
+
+    return detected_faces
+
 def sub_face_detection(filename):
     detected_faces = []
-
+    for i in range(0, 10):
+        if os.path.exists(f'tmp/{i}_{filename}'):
+            print(f'Processing file {i}_{filename}')
+            result = detect_amt_of_faces(f'tmp/{i}_{filename}')
+            detected_faces.append(result)
+        else:
+            print(f'File {i}_{filename} does not exist. Skipping.')
+            continue
 
 
     return detected_faces
