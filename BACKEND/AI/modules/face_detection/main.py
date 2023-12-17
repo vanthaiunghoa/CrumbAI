@@ -1,5 +1,36 @@
 import os
+import subprocess
+
+import cv2 as cv
 import ffmpeg
+
+def sub_face_detection(filename):
+    detected_faces = []
+
+
+
+    return detected_faces
+
+def master_face_detection(filename):
+    print('Starting face detection...')
+    processed_file = 0
+    detected_faces = sub_face_detection(filename)
+    print('Finished face detection.')
+
+    try:
+        if len(detected_faces) == 0:
+            print('No faces detected.')
+            return None
+        else:
+            print('Detecting faces.')
+
+            print('Finished detecting faces.')
+    except Exception as e:
+        print('Error detecting faces.')
+        print(e)
+        return None
+
+
 
 def crop_video(filename):
     for i in range(0, 10):
@@ -14,7 +45,7 @@ def crop_video(filename):
                 newWidth, newHeight = getNewDimensions(video_stream)
 
 
-            os.system(f"ffmpeg -i tmp/{i}_{filename} -vf crop={newWidth}:{newHeight} -crf 20 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_cropped_{filename} -hide_banner -loglevel error")
+            os.system(f"ffmpeg -i tmp/{i}_{filename} -vf crop={newWidth}:{newHeight} -crf 5 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_cropped_{filename} -hide_banner -loglevel error")
 def getNewDimensions(videoStream):
     width = int(videoStream['width'])
     height = int(videoStream['height'])
