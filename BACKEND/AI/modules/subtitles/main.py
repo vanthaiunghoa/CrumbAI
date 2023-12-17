@@ -9,8 +9,8 @@ def create_srt(filename):
     model = whisper.load_model("small")
 
     for i in range(10):
-        if os.path.exists(f"tmp/{i}_{filename}"):
-            subtitle_path = f"tmp/{i}_{filename[:-4]}.srt"
+        if os.path.exists(f"tmp/{i}_cropped_{filename}"):
+            subtitle_path = f"tmp/{i}_cropped_{filename[:-4]}.srt"
             open(subtitle_path, 'a').close()
             processed_file += 1
             print(f'Processing file {i}_{filename}')
@@ -18,7 +18,7 @@ def create_srt(filename):
             with open(subtitle_path, 'w') as empty_srt_file:
                 pass
 
-            result = model.transcribe(f"tmp/{i}_{filename[:-4]}.mp4")
+            result = model.transcribe(f"tmp/{i}_cropped_{filename[:-4]}.mp4")
 
             with open(subtitle_path, "w") as srt_file_writer:
                 write_srt(result["segments"], file=srt_file_writer)
@@ -34,16 +34,16 @@ def create_subtitles(filename):
     processed_file = 0
 
     for i in range(10):
-        if os.path.exists(f"tmp/{i}_{filename}"):
+        if os.path.exists(f"tmp/{i}_cropped_{filename}"):
             processed_file += 1
-            print(f'Processing file {i}_{filename}')
+            print(f'Processing file {i}_cropped_{filename}')
             try:
-                font = "force_style='FontName=Arial,FontSize=20,PrimaryColour=&H00ffffff,OutlineColour=&H00000000," \
-                    "BackColour=&H80000000,Bold=0,Italic=0,Alignment=10'"
-                sub_format = f"subtitles=tmp/{i}_{filename[:-4]}.srt:{font}"
+                font = "force_style='FontName=Londrina Solid,FontSize=20,PrimaryColour=&H00ffffff,OutlineColour=&H00000000," \
+                    "BackColour=&H80000000,Bold=1,Italic=0,Alignment=10'"
+                sub_format = f"subtitles=tmp/{i}_cropped_{filename[:-4]}.srt:{font}"
 
                 os.system(
-                    f'ffmpeg -i tmp/{i}_{filename} -vf "{sub_format}" tmp/{i}_{filename[:-4]}_subtitled.mp4 -hide_banner -loglevel error')
+                    f'ffmpeg -i tmp/{i}_cropped_{filename} -vf "{sub_format}" -crf 20 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_{filename[:-4]}_subtitled.mp4 -hide_banner -loglevel error')
                 print(f'Finished processing file {i}_{filename}')
             except Exception as e:
                 print('Error creating subtitles.')
