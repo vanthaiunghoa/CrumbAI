@@ -78,9 +78,10 @@ def save_to_database(youtube_url, filename, formatted_content):
             "filename": f'{i}_{filename}'
         }
 
+    print(f'url: {youtube_url}')
     cursor = db.cursor()
     query = "INSERT INTO videos (video_url, videos, user) VALUES (%s, %s, %s)"
-    values = (youtube_url, json.dumps(table), 'test')
+    values = (f"{youtube_url}", json.dumps(table), 'test')
     cursor.execute(query, values)
     db.commit()
     return
@@ -116,4 +117,4 @@ def does_it_exist(youtube_url):
 
 if __name__ == '__main__':
     #worker.work()
-    create({'youtube_url': 'https://www.youtube.com/watch?v=4Y4k0OPO5o0', 'user_id': 'test', 'settings': {'face_detection': False, 'subtitles': False}})
+    create({'youtube_url': 'https://www.youtube.com/watch?v=4Y4k0OPO5o0', 'user_id': 'test', 'settings': {'face_detection': True, 'subtitles': True}})
