@@ -31,10 +31,10 @@ def create(body):
     user_id = body['user_id']
     settings = body['settings']
 
-    if does_it_exist(youtube_url):
+    if False:
+    # if does_it_exist(youtube_url):
         print('Video already exists in database. Need to return already processed videos.')
         videos = get_existing_data(youtube_url)
-
     else:
         print('Video does not exist in database. Need to process it.')
         unique_id = create_unique_id()
@@ -78,10 +78,9 @@ def save_to_database(youtube_url, filename, formatted_content):
             "filename": f'{i}_{filename}'
         }
 
-    print(f'url: {youtube_url}')
     cursor = db.cursor()
     query = "INSERT INTO videos (video_url, videos, user) VALUES (%s, %s, %s)"
-    values = (f"{youtube_url}", json.dumps(table), 'test')
+    values = (youtube_url, json.dumps(table), 'test')
     cursor.execute(query, values)
     db.commit()
     return
@@ -117,4 +116,4 @@ def does_it_exist(youtube_url):
 
 if __name__ == '__main__':
     #worker.work()
-    create({'youtube_url': 'https://www.youtube.com/watch?v=4Y4k0OPO5o0', 'user_id': 'test', 'settings': {'face_detection': True, 'subtitles': True}})
+    create({'youtube_url': 'https://www.youtube.com/watch?v=4Y4k0OPO5o0', 'user_id': 'test', 'settings': {'face_detection': True, 'subtitles': False}})
