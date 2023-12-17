@@ -1,12 +1,12 @@
 // import Link from 'next/link'
-// import { getServerSession } from 'next-auth';
-// const session = await getServerSession();
-// session?.user?.email
+import { getServerSession } from 'next-auth';
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  const session = await getServerSession();
+
   return (
     <div>
-      <p>Dashbaord Page</p>
+      <p>Dashbaord Page: {session?.user?.name}</p>
     </div>
   );
 };

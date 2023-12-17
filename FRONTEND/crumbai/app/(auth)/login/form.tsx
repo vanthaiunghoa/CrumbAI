@@ -45,6 +45,7 @@ export const Form = () => {
   };
 
   return (
+    <>
     <form onSubmit={onSubmit} className="space-y-12 w-full sm:w-[400px]">
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
@@ -74,19 +75,20 @@ export const Form = () => {
           Login
         </Button>
       </div>
-      <div className="mt-4">
-        <p className="text-center">Or sign in with:</p>
-        <div className="flex justify-center space-x-4 mt-2">
-          {providers &&
-            Object.values(providers).map((provider) => (
-              <div key={provider.name} style={{ marginBottom: 0 }}>
-                <button onClick={() => signIn(provider.id)}>
-                  {provider.name}
-                </button>
-              </div>
-            ))}
-        </div>
-      </div>
     </form>
+    <div className="mt-4">
+      <p className="text-center">Or sign in with:</p>
+      <div className="flex justify-center space-x-4 mt-2">
+        {providers &&
+          Object.values(providers).map((provider) => (
+            <div key={provider.name} style={{ marginBottom: 0 }}>
+              <button onClick={() =>  signIn(provider.id, { callbackUrl: '/dashboard' })}>
+                {provider.name}
+              </button>
+            </div>
+          ))}
+      </div>
+    </div>
+        </>
   );
 };
