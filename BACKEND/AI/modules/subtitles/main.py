@@ -6,7 +6,7 @@ def create_srt(filename):
     print('Creating srt...')
     processed_file = 0
     finished_paths = {}
-    model = whisper.load_model("small")
+    model = whisper.load_model("medium.en")
 
     for i in range(10):
         if os.path.exists(f"tmp/{i}_cropped_{filename}"):
