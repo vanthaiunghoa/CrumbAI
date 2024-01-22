@@ -33,15 +33,15 @@ export const amountOptions = [
 
 export const resolutionOptions = [
     {
-        value: "144x144",
+        value: "256x256",
         label: "TikTok Thumbnail",
     },
     {
-        value: "1920x1080",
+        value: "1024x1792",
         label: "Youtube Thumbnail",
     },
     {
-        value: "1080x1080",
+        value: "1024x1024",
         label: "Instagram Reels Thumbnail",
     }, 
 ];

@@ -4,12 +4,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
 import { Heading } from "@/components/heading";
-import { ImageDown } from "lucide-react";
+import { Download, ImageDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Card, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useState } from "react";
 import { Empty } from "@/components/empty";
@@ -136,8 +138,20 @@ const ThumbnailPage = () => {
                 {images.length === 0 && !isLoading && (
                   <Empty /> 
                 )}
-                <div>
-                  Images here
+                <div className="grid grid-cols-1 md:grid-cold-2 lg:grid-cold-3 xl:grid-cols-4 gap-4 mt-8">
+                    {images.map((src) => (
+                        <Card key={src} className="rounded-lg overflow-hidden">
+                          <div className="relative aspect-square">
+                            <Image alt="Image" fill src={src} />
+                          </div>
+                          <CardFooter className="p-2">
+                            <Button onClick={() => window.open(src)} variant="secondary" className="w-full">
+                              <Download className="h-4 w-4 mr-2" />
+                              Download
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                    ))}
                 </div>
             </div>
         </div>
