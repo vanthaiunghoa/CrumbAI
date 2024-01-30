@@ -49,11 +49,11 @@ export const options: NextAuthOptions = {
                     credentials.password,
                     user.password
                 )
-        
+
                 if (!isPasswordValid) {
                     return null
                 }
-        
+
                 return {
                     id: user.id + '',
                     email: user.email,
@@ -63,29 +63,53 @@ export const options: NextAuthOptions = {
             }
         })
     ],
+    // callbacks: {
+    //     session: ({ session, token }) => {
+    //       console.log('Session Callback', { session, token })
+    //       return {
+    //         ...session,
+    //         user: {
+    //           ...session.user,
+    //           id: token.id,
+    //           randomKey: token.randomKey
+    //         }
+    //       }
+    //     },
+    //     // session({ session, token }) {
+    //     //     session.user.id = token.id
+
+    //     //     return session
+    //     // },
+    //     jwt: ({ token, user }) => {
+    //       console.log('JWT Callback', { token, user })
+    //       if (user) {
+    //         const u = user as unknown as any
+    //         return {
+    //           ...token,
+    //           id: u.id,
+    //           randomKey: u.randomKey
+    //         }
+    //       }
+    //       return token
+    //     }
+    //     // jwt({ token, account, user }) {
+    //     //     if (account) {
+    //     //         token.accessToken = account.access_token
+    //     //         token.id = user?.id
+    //     //     }
+    //     //     return token
+    //     // }
+    // }
     callbacks: {
-        session: ({ session, token }) => {
-          console.log('Session Callback', { session, token })
-          return {
-            ...session,
-            user: {
-              ...session.user,
-              id: token.id,
-              randomKey: token.randomKey
-            }
-          }
-        },
-        jwt: ({ token, user }) => {
-          console.log('JWT Callback', { token, user })
+        async jwt({ token, user }) {
           if (user) {
-            const u = user as unknown as any
-            return {
-              ...token,
-              id: u.id,
-              randomKey: u.randomKey
-            }
+            token.id = user.id;
           }
-          return token
-        }
-      } 
+          return token;
+        },
+        async session({ session, token }) {
+          session.user.id = token.id;
+          return session;
+        },
+      },
 }

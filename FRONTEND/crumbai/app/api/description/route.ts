@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { OpenAI } from "openai";
+import { increaseApiLimit, checkApiLimit }  from "@/lib/api-limit";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -18,6 +19,12 @@ export async function POST(req: Request) {
             return new NextResponse("Messages are required", { status: 400 });
         }
 
+        const freeTrial = await checkApiLimit();
+
+        if (!freeTrial) {
+            return new NextResponse("You have exceeded the free trial limit", { status: 403 });
+        }
+
         const descriptionContext = {
             role: 'system',
             content: "You are an AI trained to generate a short appealing description and tags for there video based off the information they give you. It must be a maximum of 50 words."
@@ -29,6 +36,8 @@ export async function POST(req: Request) {
             model: "gpt-3.5-turbo",
             messages: updatedMessages
         });
+
+        await increaseApiLimit();
 
         return NextResponse.json(response.choices[0].message);
     } catch (error) {
