@@ -142,6 +142,30 @@ const LandingPage = () => {
           </Card>
         </div>
       </div>
+
+      <div className="bg-[#1e1e1e] px-10 pb-20">
+        <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Features</h2>
+        <div className="grid">
+          <Tabs defaultValue="1" className="w-full">
+            <TabsList className="flex flex-wrap justify-center gap-y-5 bg-[#1e1e1e] text-white" loop={true}>
+              <TabsTrigger value="1" className="mx-2">Subtitle Generation</TabsTrigger>
+              <TabsTrigger value="2" className="mx-2">Active Speaker Generation</TabsTrigger>
+              <TabsTrigger value="3" className="mx-2">Detect Viral Moments</TabsTrigger>
+
+              <TabsTrigger value="4" className="mx-2">Auto Crop</TabsTrigger>
+              <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
+              <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
+            </TabsList>
+            <TabsContent value="1">Testing 1</TabsContent>
+            <TabsContent value="2">Testing 2</TabsContent>
+            <TabsContent value="3">Testing 3</TabsContent>
+            <TabsContent value="4">Testing 4</TabsContent>
+            <TabsContent value="5">Testing 5</TabsContent>
+            <TabsContent value="6">Testing 6</TabsContent>
+          </Tabs>
+        </div>
+      </div>
+
     </>
   )
 }
