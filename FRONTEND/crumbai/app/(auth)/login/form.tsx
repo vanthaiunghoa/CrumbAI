@@ -48,9 +48,10 @@ export const Form = () => {
     <>
     <form onSubmit={onSubmit} className="space-y-12 w-full sm:w-[400px]">
       <div className="grid w-full items-center gap-1.5">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Email:</Label>
         <Input
-          className="w-full"
+          className="w-full bg-[#232323] border-0"
+          placeholder="example@gmail.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -59,9 +60,10 @@ export const Form = () => {
         />
       </div>
       <div className="grid w-full items-center gap-1.5">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Password:</Label>
         <Input
-          className="w-full"
+          className="w-full bg-[#232323] border-0"
+          placeholder="*********"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -71,8 +73,8 @@ export const Form = () => {
       </div>
       {error && <Alert>{error}</Alert>}
       <div className="w-full">
-        <Button className="w-full" size="lg">
-          Login
+        <Button className="w-full" size="lg" variant={'crumbai'}>
+          Sign In
         </Button>
       </div>
     </form>

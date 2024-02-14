@@ -41,7 +41,8 @@ export const RegisterForm = () => {
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input
-          className="w-full"
+          className="w-full bg-[#232323] border-0"
+          placeholder="example@gmail.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -52,7 +53,8 @@ export const RegisterForm = () => {
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="password">Password</Label>
         <Input
-          className="w-full"
+          className="w-full bg-[#232323] border-0"
+          placeholder="*********"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -62,7 +64,7 @@ export const RegisterForm = () => {
       </div>
       {error && <Alert>{error}</Alert>}
       <div className="w-full">
-        <Button className="w-full" size="lg">
+        <Button className="w-full" size="lg" variant={'crumbai'}>
           Register
         </Button>
       </div>
