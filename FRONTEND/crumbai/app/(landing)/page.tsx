@@ -49,7 +49,7 @@ const LandingPage = () => {
               Pricing
             </Button>
           </Link>
-          <Link href="">
+          <Link href="/login">
             <Button variant="link" size="icon" className="text-white">
               <User className="h-4 w-4" />
             </Button>

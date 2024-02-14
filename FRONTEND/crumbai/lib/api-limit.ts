@@ -39,7 +39,6 @@ export const increaseApiLimit = async () => {
 
 export const checkApiLimit = async () => {
     const session = await getServerSession();
-    console.log("Test: ", session);
     if (session) {
         const userEmail = session?.user?.email;
         console.log("Test: ", userEmail);
@@ -55,5 +54,27 @@ export const checkApiLimit = async () => {
         } else {
             return false;
         }
+    }
+};
+
+export const getApiLimitCount = async () => {
+    const session = await getServerSession();
+    console.log("Testinggg");
+
+    if (session) {
+        console.log("Testinggg");
+        const userEmail = session?.user?.email;
+
+        const userApiLimit = await prisma.userApiLimit.findUnique({
+            where: {
+                userEmail: userEmail!
+            }
+        });
+
+        if (!userApiLimit) {
+            return 0;
+        }
+
+        return userApiLimit.count;
     }
 }
