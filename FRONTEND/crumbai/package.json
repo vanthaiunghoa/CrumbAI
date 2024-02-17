@@ -48,7 +48,8 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "typewriter-effect": "^2.21.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

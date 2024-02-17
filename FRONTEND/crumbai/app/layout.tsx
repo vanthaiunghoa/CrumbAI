@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
+import { ModalProvider } from '@/components/modal-provider'
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -23,7 +24,10 @@ export default function RootLayout({
       <body className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
-        )}>{children}</body>
+        )}>
+          <ModalProvider />
+          {children}
+      </body>
     </html>
   )
 }
