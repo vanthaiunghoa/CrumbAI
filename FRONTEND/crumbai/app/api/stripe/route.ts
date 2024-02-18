@@ -31,7 +31,6 @@ export async function GET() {
             return new NextResponse(JSON.stringify({ url: stripeSession.url }));
         } else {
             try {
-                console.log("TESTING 123");
                 const stripeSession = await stripe.checkout.sessions.create({
                     success_url: settingsUrl,
                     cancel_url: settingsUrl,
@@ -57,8 +56,6 @@ export async function GET() {
                         userEmail,
                     },
                 });
-                console.log("TESTING 456");
-
 
                 return new NextResponse(JSON.stringify({ url: stripeSession.url }));
             }  catch (error) {

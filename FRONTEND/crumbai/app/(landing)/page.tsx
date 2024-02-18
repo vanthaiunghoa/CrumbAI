@@ -1,5 +1,7 @@
 "use client";
 
+import { getServerSession } from 'next-auth';
+
 import { Montserrat } from "next/font/google";
 import Image from "next/image"
 import Link from "next/link"
@@ -11,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import TypewriterComponent from "typewriter-effect";
 
-import { User } from "lucide-react";
+import { User, LogIn } from "lucide-react";
 
 import {
   Avatar,
@@ -24,7 +26,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const font = Montserrat({ weight: '700', subsets: ['latin'] });
 
-const LandingPage = () => {
+const LandingPage = async () => {
+
+  const session = await getServerSession();
+  const isLoggedIn = Boolean(session?.user);
+
   return (
     <>
       <nav className="p-4 bg-[#1e1e1e] flex items-center justify-between">
@@ -49,11 +55,19 @@ const LandingPage = () => {
               Pricing
             </Button>
           </Link>
-          <Link href="/login">
-            <Button variant="link" size="icon" className="text-white">
-              <User className="h-4 w-4" />
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <Link href="/dashboard">
+              <Button variant="link" className="text-white">
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <Button variant="link" size="icon" className="text-white">
+                <User className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
         </div>
 
       </nav>

@@ -37,7 +37,7 @@ export const Form = () => {
       });
       console.log('Res', res);
       if (!res?.error) {
-        router.push(callbackUrl);
+        router.push("/dashboard"); // removed callbackurl
       } else {
         setError('Invalid email or password');
       }

@@ -6,7 +6,7 @@ const DashboardPage = async () => {
 
   return (
     <div>
-      <p>Dashbaord Page: {session?.user?.name}</p>
+      <p>Dashbaord Page: {session?.user?.email}</p>
     </div>
   );
 };
