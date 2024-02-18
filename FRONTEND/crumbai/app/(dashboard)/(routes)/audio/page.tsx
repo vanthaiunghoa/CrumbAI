@@ -15,10 +15,12 @@ import { useState } from "react";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 const AudioPage = () => {
     const router = useRouter();
     const [music, setMusic] = useState<string>();
+    const proModal = useProModal();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -38,7 +40,9 @@ const AudioPage = () => {
           setMusic(response.data.audio);
           form.reset();
         } catch (error: any) {
-            console.log(error);
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             router.refresh();
         }
