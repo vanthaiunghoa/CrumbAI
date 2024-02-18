@@ -62,10 +62,12 @@ const routes = [
 
 interface SidebarProps {
     apiLimitCount: number;
+    isUnlimited: boolean;
 };
 
 const Sidebar = ({
-    apiLimitCount = 0
+    apiLimitCount = 0,
+    isUnlimited = false
 }) => {
     return (
         <div className="space-y-4 py-4 flex flex-col h-full bg-[#1E1E1E] text-white">
@@ -94,6 +96,7 @@ const Sidebar = ({
                 </div>
             </div>
             <FreeCounter
+                isUnlimited={isUnlimited}
                 apiLimitCount={apiLimitCount}
             />
         </div>
