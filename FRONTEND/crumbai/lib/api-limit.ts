@@ -63,16 +63,16 @@ export const getApiLimitCount = async () => {
     if (session) {
         const userEmail = session?.user?.email;
 
-        // const userApiLimit = await prisma.userApiLimit.findUnique({
-        //     where: {
-        //         userEmail: userEmail!
-        //     }
-        // });
+        const userApiLimit = await prisma.userApiLimit.findUnique({
+            where: {
+                userEmail: userEmail!
+            }
+        });
 
-        // if (!userApiLimit) {
-        //     return 0;
-        // }
+        if (!userApiLimit) {
+            return 0;
+        }
 
-        // return userApiLimit.count;
+        return userApiLimit.count;
     }
 }
