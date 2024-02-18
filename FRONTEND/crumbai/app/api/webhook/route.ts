@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         );
 
         if (!session?.metadata?.userEmail) {
-            return new NextResponse("User Email not found", { status:400} )
+            return new NextResponse("User Email not found", { status:400 } )
         }
 
         await prisma.userSubscription.create({

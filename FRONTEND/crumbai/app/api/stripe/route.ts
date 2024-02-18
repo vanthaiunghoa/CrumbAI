@@ -30,33 +30,41 @@ export async function GET() {
 
             return new NextResponse(JSON.stringify({ url: stripeSession.url }));
         } else {
-            const stripeSession = await stripe.checkout.sessions.create({
-                success_url: settingsUrl,
-                cancel_url: settingsUrl,
-                payment_method_types: ["card"],
-                mode: "subscription",
-                billing_address_collection: "auto",
-                customer_email: userEmail,
-                line_items: [{
-                    price_data: {
-                        currency: "EUR",
-                        product_data: {
-                            name: "CrumbAI Unlimited",
-                            description: "Unlimited Generations",
+            try {
+                console.log("TESTING 123");
+                const stripeSession = await stripe.checkout.sessions.create({
+                    success_url: settingsUrl,
+                    cancel_url: settingsUrl,
+                    payment_method_types: ["card"],
+                    mode: "subscription",
+                    billing_address_collection: "auto",
+                    customer_email: userEmail,
+                    line_items: [{
+                        price_data: {
+                            currency: "USD",
+                            product_data: {
+                                name: "CrumbAI Unlimited",
+                                description: "Unlimited Generations",
+                            },
+                            unit_amount: 2000,
+                            recurring: {
+                                interval: "month"
+                            }
                         },
-                        unit_amount: 2000,
-                        recurring: {
-                            interval: "month"
-                        }
+                        quantity: 1,
+                    }],
+                    metadata: {
+                        userEmail,
                     },
-                    quantity: 1,
-                }],
-                metadata: {
-                    userEmail: userEmail
-                },
-            });
+                });
+                console.log("TESTING 456");
 
-            return new NextResponse(JSON.stringify({ url: stripeSession.url }));
+
+                return new NextResponse(JSON.stringify({ url: stripeSession.url }));
+            }  catch (error) {
+                console.error("Error creating Stripe session:", error);
+                return new NextResponse(JSON.stringify({error: "Failed to create Stripe session"}), {status: 500});
+            }
         }
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred with stripe';
