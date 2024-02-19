@@ -19,7 +19,7 @@ export const SubscriptionButton = ({
       const response = await axios.get("/api/stripe");
 
       window.location.href = response.data.url;
-    } catch (error) {
+    } catch (error) { 
       console.log("Something went wrong");
     } finally {
       setLoading(false);
@@ -27,8 +27,8 @@ export const SubscriptionButton = ({
   };
 
   return (
-    <Button variant={isUnlimited ? "default" : "crumbai"} disabled={loading} onClick={onClick} >
-      {isUnlimited ? "Manage Subscription" : "Upgrade"}
+    <Button variant={isUnlimited ? "success" : "crumbai"} disabled={loading} onClick={onClick} >
+      {isUnlimited ? "Manage Subscription" : "Upgrade Now"}
       {!isUnlimited && <Zap className="w-4 h-4 ml-2" />}
     </Button>
   )
