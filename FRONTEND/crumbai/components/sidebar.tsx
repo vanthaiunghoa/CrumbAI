@@ -19,13 +19,13 @@ const routes = [
     {
         label: "Your Clips",
         icon: ListVideo,
-        href: "/my-clips",
+        href: "/clips",
         color: "#F3B13F",
     },
     {
-        label: "Generate Clips",
+        label: "Generate Shorts",
         icon: Video,
-        href: "/clips",
+        href: "/shorts",
         color: "#F3B13F",
     },
     {
