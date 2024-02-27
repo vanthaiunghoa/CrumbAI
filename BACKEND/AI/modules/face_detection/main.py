@@ -4,6 +4,7 @@ import subprocess
 import cv2 as cv
 import ffmpeg
 
+
 def detect_amt_of_faces(video_file):
     detected_faces = []
     face_cascade = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_default.xml")
@@ -22,6 +23,7 @@ def detect_amt_of_faces(video_file):
 
     return detected_faces
 
+
 def sub_face_detection(filename):
     detected_faces = []
     for i in range(0, 10):
@@ -33,8 +35,8 @@ def sub_face_detection(filename):
             print(f'File {i}_{filename} does not exist. Skipping.')
             continue
 
-
     return detected_faces
+
 
 def master_face_detection(filename):
     print('Starting face detection...')
@@ -56,7 +58,6 @@ def master_face_detection(filename):
         return None
 
 
-
 def crop_video(filename):
     for i in range(0, 10):
         if os.path.exists(f'tmp/{i}_{filename}'):
@@ -67,11 +68,13 @@ def crop_video(filename):
             height = int(video_stream['height'])
 
             if width != 9 or height != 16:
-                newWidth, newHeight = getNewDimensions(video_stream)
+                newWidth, newHeight = get_new_dimensions(video_stream)
+
+            os.system(
+                f"ffmpeg -i tmp/{i}_{filename} -vf crop={newWidth}:{newHeight} -crf 5 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_cropped_{filename} -hide_banner -loglevel error")
 
 
-            os.system(f"ffmpeg -i tmp/{i}_{filename} -vf crop={newWidth}:{newHeight} -crf 5 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_cropped_{filename} -hide_banner -loglevel error")
-def getNewDimensions(videoStream):
+def get_new_dimensions(videoStream):
     width = int(videoStream['width'])
     height = int(videoStream['height'])
 
