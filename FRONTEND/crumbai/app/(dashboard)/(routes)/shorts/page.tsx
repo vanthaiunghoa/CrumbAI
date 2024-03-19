@@ -1,12 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Heading } from "@/components/heading";
 import { Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { set } from "zod";
 
 const ShortsPage = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [status, setStatus] = useState("");
+  const [jobId, setJobId] = useState("");
 
   const handleUrlChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -15,12 +18,23 @@ const ShortsPage = () => {
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // send get request to /api/shorts with youtubeUrl as query parameter
     const response = await axios.get(`/api/shorts?youtube_url=${youtubeUrl}`);
-    console.log(response.data);
+    setJobId(response.data.job_id);
   };
+
+  const fetchStatus = async () => {
+    const statusResponse = await axios.get("/api/status?job_id=" + jobId);
+    setStatus(statusResponse.data.status);
+  };
+
+  useEffect(() => {
+    if (jobId) {
+      const interval = setInterval(fetchStatus, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [jobId]);
 
   return (
     <div>
@@ -50,6 +64,11 @@ const ShortsPage = () => {
             Generate
           </Button>
         </form>
+        {status && (
+          <div className="mt-4">
+            <h2>Status: {status}</h2>
+          </div>
+        )}
       </div>
     </div>
   );

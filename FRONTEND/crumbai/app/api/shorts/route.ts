@@ -1,5 +1,7 @@
 import axios from "axios";
 import { getServerSession } from "next-auth";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -23,11 +25,18 @@ export async function GET(
   }
 
   try {
+    const queryString = req.url.split('shorts?')[1]; 
+    const searchParams = new URLSearchParams(queryString);
+    const youtubeUrl = searchParams.get('youtube_url');
+    
+    console.log("YouTube URL:", youtubeUrl);
+    
     const response = await axios.post(
       "http://161.97.88.202:8000/create",
       {
         user_id: userEmail,
-        youtube_url: req.query.youtube_url,
+        youtube_url: youtubeUrl,
+        settings: [],
       },
       {
         headers: {
