@@ -1,7 +1,5 @@
 "use client";
 
-import { getServerSession } from 'next-auth';
-
 import { Montserrat } from "next/font/google";
 import Image from "next/image"
 import Link from "next/link"
@@ -22,14 +20,13 @@ import {
 } from "@/components/ui/avatar"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getSession } from "next-auth/react"
 
 
 const font = Montserrat({ weight: '700', subsets: ['latin'] });
 
-const LandingPage = async () => {
-
-  const session = await getServerSession();
-  const isLoggedIn = Boolean(session?.user);
+const LandingPage = () => {
+  const isLoggedIn = false;
 
   return (
     <>
