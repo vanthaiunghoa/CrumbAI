@@ -1,16 +1,12 @@
 from pytube import YouTube
 
+
 def download(url, filename):
     yt = YouTube(url)
     video = yt.streams.filter(file_extension='mp4').get_highest_resolution()
-    print('Downloading video to %s...' % filename)
 
     try:
-        video.download(filename=filename, output_path='tmp/')
-        print('Video downloaded successfully.')
-        return filename
+        video.download(filename=f'{filename}.mp4', output_path='tmp/')
+        return filename + '.mp4'
     except:
-        print('Error downloading video.')
         return None
-
-
