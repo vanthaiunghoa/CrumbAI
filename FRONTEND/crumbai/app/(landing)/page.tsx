@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import TypewriterComponent from "typewriter-effect";
 
-import { User, LogIn } from "lucide-react";
+import { User, LogIn, Heart } from "lucide-react";
 
 import {
   Avatar,
@@ -92,7 +92,7 @@ const LandingPage = () => {
           Create content 10x faster with CrumbAI.
         </div>
         <div>
-          <Link href="">
+          <Link href="/dashboard">
             <Button variant="crumbai" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
               Start Free Trial
             </Button>
@@ -110,8 +110,7 @@ const LandingPage = () => {
                   <p className="text-zinc-400 text-sm">Podcast Host</p>
                 </div>
                 <Avatar>
-                  <AvatarImage src="https://cdn.discordapp.com/attachments/386246427325497356/1202249948817805323/image.png?ex=65ccc584&is=65ba5084&hm=d006ceda9df10a7291df8c03fd70316080e6afb67d9e8339b35cbcdbb4f30286&" alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="https://i1.sndcdn.com/avatars-twM1pq6gSk4YzN4F-N4zKuw-t240x240.jpg" alt="@shadcn" />
                 </Avatar>
               </CardTitle>
 
@@ -127,8 +126,7 @@ const LandingPage = () => {
                   <p className="text-zinc-400 text-sm">Youtube Tech Reviewer</p>
                 </div>
                 <Avatar>
-                  <AvatarImage src="https://cdn.discordapp.com/attachments/386246427325497356/1202248944370069565/image.png?ex=65ccc495&is=65ba4f95&hm=720dca083e780364390868a740bc481dbb8f8fc9916523cf6b2e53806d06a937&" alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="https://i1.sndcdn.com/avatars-twM1pq6gSk4YzN4F-N4zKuw-t240x240.jpg" alt="@shadcn" />
                 </Avatar>
               </CardTitle>
               <CardContent className="pt-4 px-0">
@@ -143,8 +141,7 @@ const LandingPage = () => {
                   <p className="text-zinc-400 text-sm">TikTok Influencer</p>
                 </div>
                 <Avatar>
-                  <AvatarImage src="https://cdn.discordapp.com/attachments/386246427325497356/1202249289427062824/image.png?ex=65ccc4e7&is=65ba4fe7&hm=929248101114dea4c93743ace5e3d608391dc6ba3222a159858b12974d664814&" alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="https://i1.sndcdn.com/avatars-twM1pq6gSk4YzN4F-N4zKuw-t240x240.jpg" alt="@shadcn" />
                 </Avatar>
               </CardTitle>
               <CardContent className="pt-4 px-0">
@@ -167,14 +164,20 @@ const LandingPage = () => {
               <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
               <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
             </TabsList>
-            <TabsContent value="1">Testing 1</TabsContent>
-            <TabsContent value="2">Testing 2</TabsContent>
-            <TabsContent value="3">Testing 3</TabsContent>
-            <TabsContent value="4">Testing 4</TabsContent>
-            <TabsContent value="5">Testing 5</TabsContent>
-            <TabsContent value="6">Testing 6</TabsContent>
+            <div className="text-[#F3B13F] text-center mt-8">
+              <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
+              <TabsContent value="2">Never miss a beat – our system pinpoints who's speaking, keeping your content sharp and audience tuned in.</TabsContent>
+              <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
+              <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
+              <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
+              <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
+            </div>
           </Tabs>
         </div>
+      </div>
+
+      <div className="bg-[#232323] px-10 pb-10">
+            <p className="text-white text-center pt-5">Made with ❤️ by Hamiz & Daniel | <span className="text-[#F3B13F]">© CrumbAI 2024</span> </p>
       </div>
 
     </>
