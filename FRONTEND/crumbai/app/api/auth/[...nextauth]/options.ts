@@ -1,5 +1,7 @@
 import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
+import GoogleProvider from "next-auth/providers/google";
+import InstagramProvider from "next-auth/providers/instagram";
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import { compare } from 'bcrypt'
@@ -15,6 +17,21 @@ export const options: NextAuthOptions = {
         GitHubProvider({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code"
+                }
+            }
+        }),
+        InstagramProvider({
+            clientId: process.env.INSTAGRAM_ID as string,
+            clientSecret: process.env.INSTAGRAM_SECRET as string
         }),
         CredentialsProvider({
             name: "",

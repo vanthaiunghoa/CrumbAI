@@ -7,6 +7,12 @@ import { Label } from '@/components/ui/label';
 import { getProviders, signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { Github, Chrome, Instagram } from 'lucide-react';
+
+type Provider = {
+  id: string;
+  name: string;
+};
 
 export const Form = () => {
   const router = useRouter();
@@ -15,7 +21,7 @@ export const Form = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [providers, setProviders] = useState(null);
+  const [providers, setProviders] = useState<Record<string, Provider> | null>(null);
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -37,7 +43,7 @@ export const Form = () => {
       });
       console.log('Res', res);
       if (!res?.error) {
-        router.push("/dashboard"); // removed callbackurl
+        router.push("/dashboard");
       } else {
         setError('Invalid email or password');
       }
@@ -82,13 +88,15 @@ export const Form = () => {
       <p className="text-center">Or sign in with:</p>
       <div className="flex justify-center space-x-4 mt-2">
         {providers &&
-          Object.values(providers).map((provider) => (
-            <div key={provider.name} style={{ marginBottom: 0 }}>
-              <button onClick={() =>  signIn(provider.id, { callbackUrl: '/dashboard' })}>
-                {provider.name}
-              </button>
-            </div>
-          ))}
+            Object.values(providers).map((provider) => (
+              <div key={provider.name}>
+                <button onClick={() => signIn(provider.id, { callbackUrl: '/dashboard' })}>
+                  {provider.name === 'GitHub' && <Github size={24} />}
+                  {provider.name === 'Google' && <Chrome size={24} />}
+                  {provider.name === 'Instagram' && <Instagram size={24} />}
+                </button>
+              </div>
+            ))}
       </div>
     </div>
         </>
