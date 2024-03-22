@@ -3,7 +3,6 @@ import whisper
 
 
 def create_srt(filename):
-    print('Creating srt...')
     processed_file = 0
     finished_paths = {}
     model = whisper.load_model("medium.en")
@@ -13,7 +12,6 @@ def create_srt(filename):
             subtitle_path = f"tmp/{i}_cropped_{filename[:-4]}.srt"
             open(subtitle_path, 'a').close()
             processed_file += 1
-            print(f'Processing file {i}_{filename}')
 
             with open(subtitle_path, 'w') as empty_srt_file:
                 pass
@@ -29,8 +27,8 @@ def create_srt(filename):
 
     return finished_paths
 
+
 def create_subtitles(filename):
-    print('Creating subtitles...')
     processed_file = 0
 
     for i in range(10):
@@ -39,7 +37,7 @@ def create_subtitles(filename):
             print(f'Processing file {i}_cropped_{filename}')
             try:
                 font = "force_style='FontName=Londrina Solid,FontSize=20,PrimaryColour=&H00ffffff,OutlineColour=&H00000000," \
-                    "BackColour=&H80000000,Bold=1,Italic=0,Alignment=10'"
+                       "BackColour=&H80000000,Bold=1,Italic=0,Alignment=10'"
                 sub_format = f"subtitles=tmp/{i}_cropped_{filename[:-4]}.srt:{font}"
 
                 os.system(
@@ -51,7 +49,6 @@ def create_subtitles(filename):
                 continue
         else:
             continue
-
 
 
 def format_timestamp(seconds, always_include_hours=False):
@@ -66,9 +63,10 @@ def format_timestamp(seconds, always_include_hours=False):
     hours_marker = f"{hours}:" if always_include_hours or hours > 0 else ""
     return f"{hours_marker}{minutes:02d}:{seconds:02d}.{milliseconds:03d}"
 
+
 def write_srt(transcript, file):
     for i, segment in enumerate(transcript, start=1):
         file.write(f"{i}\n"
-                    f"{format_timestamp(segment['start'], always_include_hours=True)} --> "
-                    f"{format_timestamp(segment['end'], always_include_hours=True)}\n"
-                    f"{segment['text'].strip().replace('-->', '->')}\n\n")
+                   f"{format_timestamp(segment['start'], always_include_hours=True)} --> "
+                   f"{format_timestamp(segment['end'], always_include_hours=True)}\n"
+                   f"{segment['text'].strip().replace('-->', '->')}\n\n")
