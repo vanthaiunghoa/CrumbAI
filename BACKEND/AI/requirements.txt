@@ -6,3 +6,5 @@ opencv-python~=4.8.1.78
 Flask~=3.0.0
 rq~=1.15.1
 redis~=5.0.1
+ffmpeg-python~=0.2.0
+youtube-transcript-api~=0.6.2
