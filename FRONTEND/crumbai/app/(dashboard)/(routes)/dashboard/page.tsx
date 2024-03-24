@@ -1,4 +1,5 @@
 // import Link from 'next/link'
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { getServerSession } from 'next-auth';
 
 const DashboardPage = async () => {
@@ -7,6 +8,10 @@ const DashboardPage = async () => {
   return (
     <div>
       <p>Dashbaord Page: {session?.user?.email}</p>
+        <Card>
+          <CardTitle>Users</CardTitle>
+          <CardContent>100</CardContent>
+        </Card>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Heading } from "@/components/heading";
 import { Video } from "lucide-react";
@@ -24,17 +24,18 @@ const ShortsPage = () => {
     setJobId(response.data.job_id);
   };
 
-  const fetchStatus = async () => {
+  const fetchStatus = useCallback(async () => {
     const statusResponse = await axios.get("/api/status?job_id=" + jobId);
     setStatus(statusResponse.data.status);
-  };
-
+  }, [jobId]);
+  
   useEffect(() => {
     if (jobId) {
       const interval = setInterval(fetchStatus, 5000);
       return () => clearInterval(interval);
     }
-  }, [jobId]);
+  }, [jobId, fetchStatus]);
+  
 
   return (
     <div>
