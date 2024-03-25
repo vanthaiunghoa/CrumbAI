@@ -115,7 +115,7 @@ const LandingPage = () => {
               </CardTitle>
 
               <CardContent className="pt-4 px-0">
-                Crumbai's AI effortlessly turns my long interviews into captivating shorts, highlighting the best moments. It's boosted my online presence remarkably!              </CardContent>
+                Crumbai&apos;s AI effortlessly turns my long interviews into captivating shorts, highlighting the best moments. It&apos;s boosted my online presence remarkably!              </CardContent>
             </CardHeader>
           </Card>
           <Card className="bg-[#1e1e1e] border-none text-white">
@@ -166,7 +166,7 @@ const LandingPage = () => {
             </TabsList>
             <div className="text-[#F3B13F] text-center mt-8">
               <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
-              <TabsContent value="2">Never miss a beat – our system pinpoints who's speaking, keeping your content sharp and audience tuned in.</TabsContent>
+              <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
               <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
               <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
               <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>

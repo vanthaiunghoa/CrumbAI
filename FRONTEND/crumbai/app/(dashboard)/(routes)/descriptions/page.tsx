@@ -111,7 +111,15 @@ const DescriptionPage = () => {
                         >
                             {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                             <p className="text-sm">
-                                {message.content}
+                            {Array.isArray(message.content)
+                            ? message.content.map((part, index) => {
+                                if ("text" in part) {
+                                    return <span key={index}>{part.text}</span>;
+                                }
+
+                                return null;
+                                })
+                            : message.content}
                             </p>
                         </div>
                     ))}
