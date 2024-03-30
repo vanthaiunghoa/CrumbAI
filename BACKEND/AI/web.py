@@ -1,19 +1,28 @@
-from flask import Flask, request, jsonify
+from dotenv import load_dotenv
+from flask import Flask, request, jsonify, send_file
 from rq import Queue
 from redis import Redis
 import base64
 import os
-import zipfile
+import json
 
-from modules import db
-from modules.db.main import get_status
+from modules.db.main import DB
+from modules.utils.main import env
+from modules.utils.main import create_unique_id
 
 app = Flask(__name__)
-redis_connection = Redis(host='127.0.0.1')
+# set user. pass, and host
+redis_connection = Redis(host="161.97.88.202", port=6379, password="0fRhsy5lHQyDE6qC1mlB")
 q = Queue(connection=redis_connection)
+load_dotenv()
+db = DB(env('DB_HOST'), env('DB_USER'), env('DB_PASSWORD'), env('DB_DATABASE'))
+
 
 @app.before_request
 def bearer_token_check():
+    if request.path.startswith('/videos'):
+        return
+
     bearer_token = request.headers.get('Authorization')
     if bearer_token is None:
         return jsonify({'error': 'No bearer token provided.'}), 401
@@ -24,14 +33,24 @@ def bearer_token_check():
         else:
             return
 
+
+# / route
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({'message': 'Crumb AI API'}), 200
+
+
 # /create route
 @app.route('/create', methods=['POST'])
 def create():
     body = request.get_json()
-    if body is None or body.get('video_url') is None:
+    if body is None or body.get('youtube_url') is None:
         return jsonify({'error': 'No video_url provided.'}), 400
+    if body is None or body.get('user_id') is None:
+        return jsonify({'error': 'No user_id provided.'}), 400
 
-    job = q.enqueue('main.create', args=(body,))
+    job_id = create_unique_id()
+    job = q.enqueue('main.create', job_timeout=2700, args=(body,job_id), job_id=job_id)
     return jsonify({'job_id': job.id}), 200
 
 # /status route
@@ -39,35 +58,38 @@ def create():
 def status():
     body = request.get_json()
     job_id = body['job_id']
-    job = q.fetch_job(job_id)
-    if job is None:
-        return jsonify({'error': 'No job found.'}), 404
-    else:
-        return jsonify({'status': job.get_status()}), 200
+    user_id = body['user_id']
+    if job_id is None or user_id is None:
+        return jsonify({'error': 'No job_id or user_id provided.'}), 400
+    status = db.get_status(job_id, user_id)
+
+    return jsonify({'status': status}), 200
+
 
 @app.route('/status-2', methods=['POST'])
 def status_2():
     body = request.get_json()
-    unique_id = body['unique_id']
-    user_id = body['user_id']
-    status = get_status(db, unique_id, user_id)
+    job_id = body['job_id']
+    job = q.fetch_job(job_id)
+    if job is None:
+        return jsonify({'error': 'No job found.'}), 404
+    else:
+        return jsonify({'status': job.timeout}), 200
 
-    return jsonify({'status': status}), 200
 
 # /get-clips route
 @app.route('/get-clips', methods=['POST'])
 def get_clips():
     body = request.get_json()
     user_id = body['user_id']
-
-    cursor = db.cursor()
-    query = f"SELECT * FROM videos WHERE user = '{user_id}'"
-    cursor.execute(query)
-    result = cursor.fetchone()
+    if user_id is None:
+        return jsonify({'error': 'No user_id provided.'}), 400
+    result = db.get_clips_by_user(user_id)
     if result is None:
         return jsonify({'error': 'No videos found.'}), 404
     else:
-        return jsonify({'videos': result[0]}), 200
+        return jsonify({'videos': result}), 200
+
 
 # /get-clip route
 @app.route('/get-clip', methods=['POST'])
@@ -75,15 +97,24 @@ def get_clip():
     body = request.get_json()
     user_id = body['user_id']
     video_id = body['video_id']
+    # Make sure user_id and video_id are provided
+    if user_id is None or video_id is None:
+        return jsonify({'error': 'No user_id or video_id provided.'}), 400
+    # Get clip by user
+    result = db.get_clip(user_id, video_id)
 
-    cursor = db.cursor()
-    query = f"SELECT * FROM videos WHERE user = '{user_id}' AND video_id = '{video_id}'"
-    cursor.execute(query)
-    result = cursor.fetchone()
+    # If no clip found, return 404, else return 200 with the clip
     if result is None:
         return jsonify({'error': 'No video found.'}), 404
     else:
         return jsonify({'video': result[0]}), 200
 
+# /videos/<video_id> route
+@app.route('/videos/<path>/<video_id>', methods=['GET'])
+def get_video(path, video_id):
+    return send_file(f'videos/{path}/{video_id}.mp4')
+
+
+
 if __name__ == '__main__':
-    app.run(host='localhost', port=8000)
+    app.run(host='0.0.0.0', port=8000, debug=True)
