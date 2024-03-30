@@ -28,18 +28,15 @@ def sub_face_detection(filename):
     detected_faces = []
     for i in range(0, 10):
         if os.path.exists(f'tmp/{i}_{filename}'):
-            print(f'Processing file {i}_{filename}')
             result = detect_amt_of_faces(f'tmp/{i}_{filename}')
             detected_faces.append(result)
         else:
-            print(f'File {i}_{filename} does not exist. Skipping.')
             continue
 
     return detected_faces
 
 
 def master_face_detection(filename):
-    print('Starting face detection...')
     processed_file = 0
     detected_faces = sub_face_detection(filename)
     print('Finished face detection.')
