@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import TypewriterComponent from "typewriter-effect";
 
-import { User, LogIn, Heart } from "lucide-react";
+import { User, LogIn, Heart, Check } from "lucide-react";
 
 import {
   Avatar,
@@ -19,13 +19,15 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getSession } from "next-auth/react"
+import { Badge } from "@/components/ui/badge";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useSession, getSession } from "next-auth/react"
 
 const font = Montserrat({ weight: '700', subsets: ['latin'] });
 
 const LandingPage = () => {
+  //const { data: session, status } = useSession()
   const isLoggedIn = false;
 
   return (
@@ -37,19 +39,19 @@ const LandingPage = () => {
           </div>
         </Link>
         <div className="flex items-center gap-x-2 ">
-          <Link href="">
-            <Button variant="link" className="text-white">
-              Customer Stories
-            </Button>
-          </Link>
-          <Link href="">
+          <Link href="#features">
             <Button variant="link" className="text-white">
               Features
             </Button>
           </Link>
-          <Link href="">
+          <Link href="#pricing">
             <Button variant="link" className="text-white">
               Pricing
+            </Button>
+          </Link>
+          <Link href="#customers">
+            <Button variant="link" className="text-white">
+              Customer Stories
             </Button>
           </Link>
           {isLoggedIn ? (
@@ -93,13 +95,139 @@ const LandingPage = () => {
         </div>
         <div>
           <Link href="/dashboard">
-            <Button variant="crumbai" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
+            <Button variant="pricing" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
               Start Free Trial
             </Button>
           </Link>
         </div>
       </div>
-      <div className="bg-[#232323] px-10 pb-20">
+
+      <div className="bg-[#232323] px-10 pb-20" id="features">
+        <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Features</h2>
+        <div className="grid">
+          <Tabs defaultValue="1" className="w-full">
+            <TabsList className="flex flex-wrap justify-center gap-y-5 bg-[#232323] text-white" loop={true}>
+              <TabsTrigger value="1" className="mx-2">Subtitle Generation</TabsTrigger>
+              <TabsTrigger value="2" className="mx-2">Active Speaker Generation</TabsTrigger>
+              <TabsTrigger value="3" className="mx-2">Detect Viral Moments</TabsTrigger>
+
+              <TabsTrigger value="4" className="mx-2">Auto Crop</TabsTrigger>
+              <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
+              <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
+            </TabsList>
+            <div className="text-slate-300 text-center mt-8 text-lg">
+              <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
+              <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
+              <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
+              <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
+              <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
+              <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
+            </div>
+          </Tabs>
+        </div>
+      </div>
+
+      <div className="bg-[#1e1e1e] px-10 pb-20" id="pricing">
+        <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Pricing Plans</h2>
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl">
+            <div className="bg-[#232323] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col" style={{ minWidth: '420px', maxWidth: '400px' }}>
+              <div className="p-8 flex-grow">
+                <h3 className="text-center text-3xl text-white font-semibold mb-4">Free</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      {/* Assuming Check is a component/icon, ensure it's properly imported or replaced with an appropriate element */}
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      10 Free Generations
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      Access to Try All Features
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      No Credit Card Required
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div className="px-8 pb-8 flex-none">
+                <Button variant="pricing" className="w-full md:text-lg p-4 md:p-6 rounded-md font-semibold py-2">
+                  Get Started
+                </Button>
+              </div>
+            </div>
+
+            <div className="bg-[#232323] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col" style={{ minWidth: '420px', maxWidth: '400px' }}>
+              <div className="p-6 flex-grow">
+                <h3 className="text-center text-3xl text-white font-semibold mb-4">Unlimited</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      Unlimited Short Generations
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      Unlimited Description Generations
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      Unlimited Thumbnail Generations
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      Unlimited Soundtrack Generations
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
+                    </div>
+                    <p className="ml-3 text-white text-gray-500">
+                      Auto Uploading
+                    </p>
+                  </li>
+                </ul>
+                <h1 className="text-white text-center font-bold pt-5 text-2xl">$20/<small className="text-base">monthly</small></h1>
+              </div>
+              <div className="px-8 pb-8 flex-none">
+                <Button variant="pricing" className="w-full md:text-lg p-4 md:p-6 rounded-md font-semibold py-2">
+                  Go Unlimited
+                </Button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-[#232323] px-10 pb-20" id="customers">
         <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Customer Stories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <Card className="bg-[#1e1e1e] border-none text-white">
@@ -151,33 +279,8 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="bg-[#1e1e1e] px-10 pb-20">
-        <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Features</h2>
-        <div className="grid">
-          <Tabs defaultValue="1" className="w-full">
-            <TabsList className="flex flex-wrap justify-center gap-y-5 bg-[#1e1e1e] text-white" loop={true}>
-              <TabsTrigger value="1" className="mx-2">Subtitle Generation</TabsTrigger>
-              <TabsTrigger value="2" className="mx-2">Active Speaker Generation</TabsTrigger>
-              <TabsTrigger value="3" className="mx-2">Detect Viral Moments</TabsTrigger>
-
-              <TabsTrigger value="4" className="mx-2">Auto Crop</TabsTrigger>
-              <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
-              <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
-            </TabsList>
-            <div className="text-[#F3B13F] text-center mt-8">
-              <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
-              <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
-              <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
-              <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
-              <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
-              <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
-            </div>
-          </Tabs>
-        </div>
-      </div>
-
-      <div className="bg-[#232323] px-10 pb-10">
-            <p className="text-white text-center pt-5">Made with ❤️ by Hamiz & Daniel | <span className="text-[#F3B13F]">© CrumbAI 2024</span> </p>
+      <div className="bg-[#1e1e1e] px-10 pb-10">
+        <p className="text-white text-center pt-5">Made with ❤️ by Hamiz & Daniel | <span className="text-[#F3B13F]">© CrumbAI 2024</span> </p>
       </div>
 
     </>
