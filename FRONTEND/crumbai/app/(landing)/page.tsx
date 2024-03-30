@@ -22,12 +22,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getSession } from "next-auth/react"
-
+import { useSession, getSession } from "next-auth/react"
 
 const font = Montserrat({ weight: '700', subsets: ['latin'] });
 
 const LandingPage = () => {
+  //const { data: session, status } = useSession()
   const isLoggedIn = false;
 
   return (
@@ -95,7 +95,7 @@ const LandingPage = () => {
         </div>
         <div>
           <Link href="/dashboard">
-            <Button variant="crumbai" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
+            <Button variant="pricing" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
               Start Free Trial
             </Button>
           </Link>
@@ -115,7 +115,7 @@ const LandingPage = () => {
               <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
               <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
             </TabsList>
-            <div className="text-[#F3B13F] text-center mt-8">
+            <div className="text-slate-300 text-center mt-8 text-lg">
               <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
               <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
               <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
