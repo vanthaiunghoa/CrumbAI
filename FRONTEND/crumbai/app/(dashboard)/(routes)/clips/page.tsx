@@ -46,19 +46,17 @@ const ClipsPage = () => {
         iconColor="#F3B13F"
         bgColor="bg-violet-500/10"
       />
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 py-8">
       <div>
       {videos.map((video, index) => (
-        <div key={index} className="rounded-lg overflow-hidden shadow-lg">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center justify-center">
+          <div key={index} className="rounded-lg overflow-hidden mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
             {video.details && video.details.length > 0 ? (
               video.details.map((detail, detailIndex) => (
-                <div key={detailIndex} className="aspect-w-9 aspect-h-16 w-full">
-                    <VideoClip url={detail.filename} description={detail.description} />
-                </div>
+                <VideoClip key={detailIndex} url={detail.filename} description={detail.description} />
               ))
             ) : (
-              <div>No details available for video {index}</div>
+              <div className="col-span-full text-center text-white">No details available for video {index}</div>
             )}
           </div>
         </div>
