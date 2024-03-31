@@ -2,6 +2,13 @@
 
 CrumbAI is an AI-powered web application designed to simplify the process of creating shorts. CrumbAI was made for creating short video content for TikTok and YouTube Shorts from just one provided YouTube video, ensuring the content captures the attention of the target audience leading to a boost in engagement. 
 
+## Screencast
+
+[Video Link]()
+
+## Wire Frames
+[View](https://github.com/HamzDevelopment/CrumbAI/tree/main/WIREFRAMES)
+
 ## Tools used
 
 ### Figma
@@ -19,6 +26,8 @@ Project management was streamlined through ClickUp, allowing us to track our pro
 ## Features
 
 ## Getting Started
+[Front End](https://github.com/HamzDevelopment/CrumbAI/tree/main/FRONTEND/crumbai)
+[Back End](https://github.com/HamzDevelopment/CrumbAI/tree/main/BACKEND)
 
 ## Prerequisites
 
