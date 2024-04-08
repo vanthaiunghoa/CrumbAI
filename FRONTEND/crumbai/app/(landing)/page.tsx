@@ -279,8 +279,9 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="bg-[#1e1e1e] px-10 pb-10">
-        <p className="text-white text-center pt-5">Made with ❤️ by Hamiz & Daniel | <span className="text-[#F3B13F]">© CrumbAI 2024</span> </p>
+      <div className="bg-[#1e1e1e] px-10 pb-10 text-center">
+        <p className="text-white pt-5 pb-3">Made with ❤️ by Hamiz & Daniel | <span className="text-[#F3B13F]">© CrumbAI 2024</span> </p>
+        <Link className="text-white" href="/privacy"><i>Privacy Policy</i></Link>
       </div>
 
     </>
