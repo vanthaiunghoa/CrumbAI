@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, Video, ListVideo, ImageDown, ScrollText, Music, TrendingUp, Settings } from "lucide-react";
 import { FreeCounter } from "./free-counter";
+import { ModeToggle } from "./theme-toggle";
 
 const inter = Inter({subsets: ["latin"]});
 
