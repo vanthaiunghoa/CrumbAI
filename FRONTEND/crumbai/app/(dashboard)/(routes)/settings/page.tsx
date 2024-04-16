@@ -25,6 +25,10 @@ const SettingsPage = async () => {
         <SubscriptionButton isUnlimited={isUnlimited} />
 
         <h2 className="text-lg font-semibold text-primary">
+          Name:{" "}
+          <span className="text-sm text-gray-400">{session?.user?.name}</span>
+        </h2>
+        <h2 className="text-lg font-semibold text-primary">
           Email:{" "}
           <span className="text-sm text-gray-400">{session?.user?.email}</span>
         </h2>

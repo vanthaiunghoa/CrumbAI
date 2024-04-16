@@ -5,12 +5,12 @@ import { getServerSession } from "next-auth";
 
 const DashboardPage = async () => {
   const session = await getServerSession();
-
+  const name = session?.user?.name;
   return (
     <div className="space-y-8">
       <Heading
         title="Dashboard"
-        description="Welcome to your dashboard"
+        description={`Welcome to your dashboard, ${name}!`}
         icon={LayoutDashboard}
         iconColor="#F3B13F"
         bgColor="bg-violet-500/10"
