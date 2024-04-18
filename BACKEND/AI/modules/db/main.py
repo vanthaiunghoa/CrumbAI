@@ -25,6 +25,7 @@ class DB:
         values = (status, unique_id, user_id)
         self.cursor.execute(query, values)
         self.mydb.commit()
+        print(f'Status updated to {status}.')
 
 
     def create_new_video(self, unique_id, user_id, status, settings):
@@ -41,6 +42,7 @@ class DB:
         return result[0] if result else None
 
     def save_to_database(self, youtube_url, filename, formatted_content, user_id):
+        print('Attempting to save to database...')
         table = []
         for i, content in enumerate(formatted_content):
             table.append({
@@ -53,6 +55,7 @@ class DB:
 
         query = "INSERT INTO videos (youtube_url, videos, user) VALUES (%s, %s, %s)"
         values = (youtube_url, json.dumps(table), user_id)
+        print(values)
         self.cursor.execute(query, values)
         self.mydb.commit()
 
@@ -68,13 +71,19 @@ class DB:
         return []
 
     def does_it_exist(self, youtube_url):
-        return False # Just for testing
+        return False
         # query = "SELECT COUNT(*) FROM videos WHERE youtube_url = %s"
         # values = (youtube_url,)
         # self.cursor.execute(query, values)
         # result = self.cursor.fetchone()
 
         # return result[0] > 0
+
+    def delete_clip(self, user_id, video_id):
+        query = "DELETE FROM videos WHERE user = %s AND video_id = %s"
+        values = (user_id, video_id)
+        self.cursor.execute(query, values)
+        self.mydb.commit()
 
     def get_clips_by_user(self, user_id):
         query = "SELECT youtube_url, videos FROM videos WHERE user = %s"
