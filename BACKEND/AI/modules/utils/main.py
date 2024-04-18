@@ -26,3 +26,10 @@ def move_dir(filename, folder):
         os.makedirs(f'videos/{folder}')
     os.system(f'mv tmp/{filename} videos/{folder}/{filename}')
     print('Files moved successfully.')
+
+def delete_dir(filename):
+    """
+        Delete files from tmp folder.
+    """
+    os.system(f'rm tmp/{filename}')
+    print('Files deleted successfully.')
