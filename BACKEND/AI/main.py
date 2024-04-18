@@ -1,7 +1,9 @@
 from dotenv import load_dotenv
 import os
 
-from modules.face_detection.main import crop_video
+from modules.editing.main import crop_video
+from modules.face_detection.main import master_face_detection
+from modules.gameplay.main import add_gameplay
 from modules.gpt.main import gpt
 from modules.downloader.main import download
 from modules.transcribe.main import transcribe
@@ -22,7 +24,7 @@ open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
 
 if __name__ == '__main__':
     try:
-        worker = Worker(['default'], connection=Redis(host="161.97.88.202", port=6379, password="0fRhsy5lHQyDE6qC1mlB"))
+        worker = Worker(['default'], connection=Redis(host=env("REDIS_HOST"), port=env("REDIS_PORT"), password=env('REDIS_PASSWORD')))
         worker.work()
     except Exception as e:
         print('Error connecting to Redis.')
@@ -50,22 +52,25 @@ def create(body, job_id):
         db.set_status(job_id, user_id, 'Editing the video.')
         cut_video_up(filename, formatted_content)
 
-        print('Saving to database...')
         db.save_to_database(youtube_url, job_id, formatted_content, user_id)
-        print('Saved to database.')
 
         if 'face_detection' in settings and settings['face_detection']:
             db.set_status(job_id, user_id, 'Detecting faces within the video.')
-            crop_video(filename)
+            master_face_detection(filename)
+
+        # if 'crop_video' in settings and settings['crop_video']:
+        #     db.set_status(job_id, user_id, 'Cropping the video.')
+        #     crop_video(filename)
+
+        if 'gameplay' in settings and settings['gameplay']:
+            db.set_status(job_id, user_id, 'Creating gameplay video.')
+            add_gameplay(filename, random=settings['gameplay']['option'] or True)
+
 
         if 'subtitles' in settings and settings['subtitles']:
             db.set_status(job_id, user_id, 'Creating subtitles.')
             create_srt(filename)
             create_subtitles(filename)
-
-        if 'gameplay' in settings and settings['gameplay']:
-            db.set_status(job_id, user_id, 'Creating gameplay video.')
-
 
         db.set_status(job_id, user_id, 'Finalising the video.')
 
@@ -75,3 +80,5 @@ def create(body, job_id):
                 move_dir(f'{i}_{filename}', filename[:-4])
 
         db.set_status(job_id, user_id, 'And we are done!')
+
+
