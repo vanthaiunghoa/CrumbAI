@@ -1,25 +1,23 @@
 import os
-import whisper
-
+import stable_whisper
 
 def create_srt(filename):
     processed_file = 0
     finished_paths = {}
-    model = whisper.load_model("medium.en")
+    model = stable_whisper.load_model("base")
 
     for i in range(10):
-        if os.path.exists(f"tmp/{i}_cropped_{filename}"):
-            subtitle_path = f"tmp/{i}_cropped_{filename[:-4]}.srt"
+        if os.path.exists(f"tmp/{i}_{filename}"):
+            subtitle_path = f"tmp/{i}_{filename[:-4]}.srt"
             open(subtitle_path, 'a').close()
             processed_file += 1
 
             with open(subtitle_path, 'w') as empty_srt_file:
                 pass
 
-            result = model.transcribe(f"tmp/{i}_cropped_{filename[:-4]}.mp4")
-
-            with open(subtitle_path, "w") as srt_file_writer:
-                write_srt(result["segments"], file=srt_file_writer)
+            result = model.transcribe(f"tmp/{i}_{filename[:-4]}.mp4")
+            result.to_srt_vtt(subtitle_path, segment_level=False, word_level=True,min_dur=0.3)
+            formatSubtitles(subtitle_path)
 
             finished_paths[i] = subtitle_path
         else:
@@ -32,16 +30,16 @@ def create_subtitles(filename):
     processed_file = 0
 
     for i in range(10):
-        if os.path.exists(f"tmp/{i}_cropped_{filename}"):
+        if os.path.exists(f"tmp/{i}_{filename}"):
             processed_file += 1
-            print(f'Processing file {i}_cropped_{filename}')
+            print(f'Processing file {i}_{filename}')
             try:
-                font = "force_style='FontName=Londrina Solid,FontSize=20,PrimaryColour=&H00ffffff,OutlineColour=&H00000000," \
+                font_dir = os.path.join(os.path.dirname(__file__), 'fonts')
+                font = f"fontsdir={font_dir}:force_style='FontName=Komika Axis,FontSize=30,MarginV=70,PrimaryColour=&H00ffffff,OutlineColour=&H00000000,Outline=2,BorderStyle=1" \
                        "BackColour=&H80000000,Bold=1,Italic=0,Alignment=10'"
-                sub_format = f"subtitles=tmp/{i}_cropped_{filename[:-4]}.srt:{font}"
-
+                sub_format = f"subtitles=tmp/{i}_{filename[:-4]}.srt:{font}"
                 os.system(
-                    f'ffmpeg -i tmp/{i}_cropped_{filename} -vf "{sub_format}" -crf 20 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_{filename[:-4]}_subtitled.mp4 -hide_banner -loglevel error')
+                    f'ffmpeg -i tmp/{i}_{filename} -vf "{sub_format}" -crf 20 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_{filename[:-4]}_subtitled.mp4 -hide_banner -loglevel error -y')
                 print(f'Finished processing file {i}_{filename}')
             except Exception as e:
                 print('Error creating subtitles.')
@@ -51,22 +49,10 @@ def create_subtitles(filename):
             continue
 
 
-def format_timestamp(seconds, always_include_hours=False):
-    if seconds < 0: return None
-    milliseconds = round(seconds * 1000.0)
-    hours = milliseconds // 3_600_000
-    milliseconds -= hours * 3_600_000
-    minutes = milliseconds // 60_000
-    milliseconds -= minutes * 60_000
-    seconds = milliseconds // 1_000
-    milliseconds -= seconds * 1_000
-    hours_marker = f"{hours}:" if always_include_hours or hours > 0 else ""
-    return f"{hours_marker}{minutes:02d}:{seconds:02d}.{milliseconds:03d}"
+def formatSubtitles(subtitle_path):
+    with open(subtitle_path, 'r') as file:
+        filedata = file.read()
+        filedata = filedata.upper()
+    with open(subtitle_path, 'w') as file:
+        file.write(filedata)
 
-
-def write_srt(transcript, file):
-    for i, segment in enumerate(transcript, start=1):
-        file.write(f"{i}\n"
-                   f"{format_timestamp(segment['start'], always_include_hours=True)} --> "
-                   f"{format_timestamp(segment['end'], always_include_hours=True)}\n"
-                   f"{segment['text'].strip().replace('-->', '->')}\n\n")
