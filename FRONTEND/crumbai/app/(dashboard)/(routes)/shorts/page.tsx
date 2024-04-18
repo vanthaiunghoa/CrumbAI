@@ -9,6 +9,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 const ShortsPage = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [faceDetection, setFaceDetection] = useState(false);
+  const [subtitles, setSubtitles] = useState(false);
+  const [halfGameplay, setHalfGameplay] = useState(false);
+
   const [status, setStatus] = useState("");
   const [jobId, setJobId] = useState("");
 
@@ -18,10 +22,30 @@ const ShortsPage = () => {
     setYoutubeUrl(e.target.value);
   };
 
+  const handleFaceDetectionChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setFaceDetection(e.target.checked);
+  };
+  
+  const handleSubtitlesChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setSubtitles(e.target.checked);
+  };
+  
+  const handleHalfGameplayChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+    setHalfGameplay(e.target.checked);
+  };
+  
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const response = await axios.get(`/api/shorts?youtube_url=${youtubeUrl}`);
+    const params = {
+      youtube_url: youtubeUrl,
+      face_detection: faceDetection,
+      subtitles: subtitles,
+      half_gameplay: halfGameplay,
+    };
+
+    const response = await axios.get(`/api/shorts`, { params });
     setJobId(response.data.job_id);
   };
 
@@ -61,31 +85,31 @@ const ShortsPage = () => {
           />
           <div className="col-span-4 flex justify-start items-center gap-4">
             <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Face Detection
-              </label>
+              <input
+                type="checkbox" 
+                id="faceDetection" 
+                checked={faceDetection} 
+                onChange={handleFaceDetectionChange} 
+              />
+              <label htmlFor="faceDetection" className="text-sm font-medium">Face Detection</label>
             </div>
             <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Subtitles
-              </label>
+              <input
+                type="checkbox"
+                id="subtitles"
+                checked={subtitles}
+                onChange={handleSubtitlesChange}
+              />
+              <label htmlFor="subtitles" className="text-sm font-medium">Subtitles</label>
             </div>
             <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Half Gameplay
-              </label>
+              <input
+                type="checkbox"
+                id="halfGameplay"
+                checked={halfGameplay}
+                onChange={handleHalfGameplayChange}
+              />
+              <label htmlFor="halfGameplay" className="text-sm font-medium">Half Gameplay</label>
             </div>
           </div>
           <div className="col-span-12 lg:col-start-6 lg:col-span-2 w-full">

@@ -30,7 +30,7 @@ export async function GET(
     const jobId = searchParams.get('job_id'); 
         
     const response = await axios.post(
-      "http://161.97.88.202:8000/status",
+      "http://194.163.180.166:8000/status",
       {
         user_id: userEmail,
         job_id: jobId,
