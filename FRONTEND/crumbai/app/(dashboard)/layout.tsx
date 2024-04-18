@@ -12,11 +12,11 @@ const DashboardLayout = async ({
     const isUnlimited = await checkSubscription();
 
     return (
-        <div className="h-full relative bg-[#232323] text-white">
-            <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 bg-gray-900">
+        <div className="h-full relative text-white">
+            <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 bg-gray-900 z-[80]">
                 <Sidebar isUnlimited={isUnlimited} apiLimitCount={apiLimitCount} />
             </div>
-            <main className="md: pl-72" >
+            <main className="md:pl-72" >
                 <Navbar />
                 {children}
             </main>

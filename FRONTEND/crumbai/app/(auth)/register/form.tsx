@@ -8,6 +8,7 @@ import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 
 export const RegisterForm = () => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -19,6 +20,7 @@ export const RegisterForm = () => {
       const res = await fetch('/api/register', {
         method: 'POST',
         body: JSON.stringify({
+          name,
           email,
           password
         }),
@@ -38,6 +40,17 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={onSubmit} className="space-y-12 w-full sm:w-[400px]">
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="name">Name</Label>
+        <Input
+          className="w-full bg-[#232323] border-0"
+          placeholder="John Doe"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          id="name"
+        />
+      </div>
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input

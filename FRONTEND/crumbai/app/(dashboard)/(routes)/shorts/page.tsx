@@ -5,6 +5,7 @@ import { Heading } from "@/components/heading";
 import { Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { set } from "zod";
+import { Checkbox } from "@/components/ui/checkbox"
 
 const ShortsPage = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
@@ -53,17 +54,48 @@ const ShortsPage = () => {
         >
           <input
             type="text"
-            className="bg-[#232323] lg:col-span-10 border-0 p-3 focus:outline-none"
+            className="bg-[#232323] lg:col-span-8 border-0 p-3 focus:outline-none"
             placeholder="https://www.youtube.com/watch?v=..."
             value={youtubeUrl}
             onChange={handleUrlChange}
           />
-          <Button
-            variant="crumbai"
-            className="col-span-12 lg:col-span-2 w-full mt-1"
-          >
-            Generate
-          </Button>
+          <div className="col-span-4 flex justify-start items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox id="terms" />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Face Detection
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="terms" />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Subtitles
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="terms" />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Half Gameplay
+              </label>
+            </div>
+          </div>
+          <div className="col-span-12 lg:col-start-6 lg:col-span-2 w-full">
+            <Button
+              variant="crumbai"
+              className="col-span-12 lg:col-span-2 w-full mt-1"
+            >
+              Generate
+            </Button>
+          </div>
         </form>
         {status && (
           <div className="mt-4">

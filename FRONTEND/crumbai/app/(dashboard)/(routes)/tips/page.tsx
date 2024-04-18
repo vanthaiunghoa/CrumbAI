@@ -2,7 +2,7 @@ import { Heading } from '@/components/heading';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { TrendingUp } from 'lucide-react';
 
-const DashboardPage = async () => {
+const TipsPage = async () => {
   const tipsAndTrends = [
     {
       title: 'Half Gameplay Shorts',
@@ -52,4 +52,4 @@ const DashboardPage = async () => {
   );
 };
 
-export default DashboardPage;
+export default TipsPage;
