@@ -73,10 +73,8 @@ class gpt:
         n = len(sequence) // 2
         i = iter(sequence)
 
-        # Use islice to get the first half
         first_half = list(itertools.islice(i, n))
 
-        # Use the rest of the iterator to get the second half
         second_half = list(i)
 
         return first_half, second_half
