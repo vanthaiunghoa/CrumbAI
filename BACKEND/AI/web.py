@@ -7,13 +7,11 @@ import os
 import json
 
 from modules.db.main import DB
-from modules.utils.main import env
+from modules.utils.main import delete_dir, env
 from modules.utils.main import create_unique_id
 
 app = Flask(__name__)
-# set user. pass, and host
-redis_connection = Redis(host="161.97.88.202", port=6379, password="0fRhsy5lHQyDE6qC1mlB")
-q = Queue(connection=redis_connection)
+q = Queue(connection=Redis(host=env("REDIS_HOST"), port=env("REDIS_PORT"), password=env("REDIS_PASSWORD")))
 load_dotenv()
 db = DB(env('DB_HOST'), env('DB_USER'), env('DB_PASSWORD'), env('DB_DATABASE'))
 
@@ -53,6 +51,8 @@ def create():
     job = q.enqueue('main.create', job_timeout=2700, args=(body,job_id), job_id=job_id)
     return jsonify({'job_id': job.id}), 200
 
+
+
 # /status route
 @app.route('/status', methods=['POST'])
 def status():
@@ -90,6 +90,17 @@ def get_clips():
     else:
         return jsonify({'videos': result}), 200
 
+# /delete
+@app.route('/delete', methods=['POST'])
+def delete():
+    body = request.get_json()
+    user_id = body['user_id']
+    video_id = body['video_id']
+    if user_id is None or video_id is None:
+        return jsonify({'error': 'No user_id or video_id provided.'}), 400
+    db.delete_clip(user_id, video_id)
+    delete_dir(video_id)
+    return jsonify({'message': 'Video deleted.'}), 200
 
 # /get-clip route
 @app.route('/get-clip', methods=['POST'])
@@ -112,7 +123,10 @@ def get_clip():
 # /videos/<video_id> route
 @app.route('/videos/<path>/<video_id>', methods=['GET'])
 def get_video(path, video_id):
-    return send_file(f'videos/{path}/{video_id}.mp4')
+    if os.path.exists(f'videos/{path}/{video_id}.mp4'):
+        return send_file(f'videos/{path}/{video_id}.mp4')
+    else:
+        return jsonify({'error': 'Video not found.'}), 404
 
 
 
