@@ -1,36 +1,42 @@
-# CrumbAI
+# FYP - CrumbAI
+*By Hamiz & Daniel*
 
-CrumbAI is an AI-powered web application designed to simplify the process of creating shorts. CrumbAI was made for creating short video content for TikTok and YouTube Shorts from just one provided YouTube video, ensuring the content captures the attention of the target audience leading to a boost in engagement. 
-
-## Screencast
-
-[Video Link]()
-
-## Wire Frames
-[View](https://github.com/HamzDevelopment/CrumbAI/tree/main/WIREFRAMES)
-
-## Tools used
-
-### Figma
-
-[Link to our Figma project](https://www.figma.com/file/mCqg33JAgY8THT4YfxQBLt/CrumbAI?type=whiteboard&node-id=0%3A1&t=E0eyaIER22gMJScG-1)
-
-We used Figma to build the app's wireframe during the development, visualising the user experience before developing the application.
-
-### ClickUp
-
-[Link to ClickUp board](https://app.clickup.com/9015145729/v/s/90150323474)
-
-Project management was streamlined through ClickUp, allowing us to track our progress using Gantt charts.
+CrumbAI revolutionizes the creation of short-form video content. This AI-powered web application is crafted to streamline content creation for platforms like TikTok and YouTube Shorts. By automating critical editing tasks, CrumbAI enables content creators to produce engaging videos that captivate their audiences and enhance engagement—all from a single provided YouTube video source.
 
 ## Features
 
+- **AI-Powered Shorts Generation**: Harness the power of AI for efficient segment detection, subtitle generation and face detection.
+- **Generative AI**:
+
+## Screencast
+
+Explore CrumbAI in action and see how it can transform your video editing workflow.
+
+[Watch Screencast](#)
+
+## Wireframes
+
+Get a glimpse into our design process and user experience planning with our detailed wireframes.
+
+[View Wireframes](https://github.com/HamzDevelopment/CrumbAI/tree/main/WIREFRAMES)
+
+## Development Tools
+
+### Figma
+
+Our designs begin in Figma, where we visualize and iterate on the user experience.
+
+[View Figma Project](https://www.figma.com/file/mCqg33JAgY8THT4YfxQBLt/CrumbAI?type=whiteboard&node-id=0%3A1&t=E0eyaIER22gMJScG-1)
+
+### ClickUp
+
+ClickUp is our project management hub, keeping us on track with organized tasks and deadlines.
+
+[Access ClickUp Board](https://app.clickup.com/9015145729/v/s/90150323474)
+
 ## Getting Started
-[Front End](https://github.com/HamzDevelopment/CrumbAI/tree/main/FRONTEND/crumbai)
-[Back End](https://github.com/HamzDevelopment/CrumbAI/tree/main/BACKEND)
 
-## Prerequisites
+To get started with CrumbAI, follow the links below to set up the front-end and back-end on your local machine.
 
-## Installation
-
-## Usage
+- [Set Up Front End](https://github.com/HamzDevelopment/CrumbAI/tree/main/FRONTEND/crumbai)
+- [Set Up Back End](https://github.com/HamzDevelopment/CrumbAI/tree/main/BACKEND)
