@@ -122,8 +122,8 @@ const ShortsPage = () => {
           </div>
         </form>
         {status && (
-          <div className="mt-4">
-            <h2>Status: {status}</h2>
+          <div className="mt-4 text-center">
+            <h1 className="text-xl text-primary"><b>Status:</b> {status}</h1>
           </div>
         )}
       </div>
