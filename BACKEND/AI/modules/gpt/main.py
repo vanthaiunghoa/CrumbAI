@@ -14,21 +14,21 @@ class gpt:
         [
             {
                 "start_time": 10.00,
-                "end_time": 30.00,
+                "end_time": 60.00,
                 "description": "This is the first interesting part of the video",
-                "duration": 20.00
+                "duration": 50.00
             },
             {
-                "start_time": 60.00,
-                "end_time": 90.00,
+                "start_time": 70.00,
+                "end_time": 130.00,
                 "description": "This is the second interesting part of the video",
-                "duration": 30.00
+                "duration": 60.00
             },
             {
-                "start_time": 120.00,
-                "end_time": 150.00,
+                "start_time": 150.00,
+                "end_time": 190.00,
                 "description": "This is the third interesting part of the video",
-                "duration": 30.00
+                "duration": 40.00
             }
         ]
     '''
