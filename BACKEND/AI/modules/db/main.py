@@ -102,3 +102,21 @@ class DB:
 
         return result
 
+    def delete_old_videos(self):
+        query = "SELECT unique_id FROM video_status WHERE timestamp < DATE_SUB(NOW(), INTERVAL 2 WEEK)"
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        for unique_id in result:
+            query = "SELECT videos FROM videos WHERE unique_id = %s"
+            values = (unique_id[0],)
+            self.cursor.execute(query, values)
+            result = self.cursor.fetchone()
+            videos = json.loads(result[0])
+            for video in videos:
+                for key, value in video.items():
+                    if os.path.exists(f'videos/{value}'):
+                        os.remove(f'videos/{value}')
+            query = "DELETE FROM videos WHERE unique_id = %s"
+            values = (unique_id[0],)
+            self.cursor.execute(query, values)
+            self.mydb.commit()
