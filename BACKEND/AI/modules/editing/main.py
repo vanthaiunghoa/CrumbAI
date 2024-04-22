@@ -15,7 +15,6 @@ def crop_video(filename):
             if width != 9 or height != 16:
                 newWidth, newHeight = get_new_dimensions(video_stream)
 
-            print(f'Video: {i}_{filename} is {width}x{height}. Cropping to {newWidth}x{newHeight}.')
             os.system(
                 f"ffmpeg -i tmp/{i}_{filename} -vf crop={newWidth}:{newHeight} -crf 5 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_cropped_{filename} -hide_banner -loglevel error")
 
@@ -47,5 +46,4 @@ def cut_video(filename, start_time, end_time, duration, description, i):
         filename = filename.replace('.mp4', '')
     os.system(
         f"ffmpeg -i tmp/{filename}.mp4 -ss {start_time} -to {end_time} -crf 20 -c:v libx264 -b:v 0 -c:a copy tmp/{i}_{filename}.mp4 -hide_banner -loglevel error")
-    print(f'Video: {i}_{filename} cut. Description: {description}. Duration of cut: {duration} seconds.')
     return
