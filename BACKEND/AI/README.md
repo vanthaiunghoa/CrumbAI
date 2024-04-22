@@ -19,6 +19,7 @@ Before you begin, ensure you have the following installed:
   - [Hugging Face API key](https://huggingface.co/settings/tokens): This is used for speech recognition. It's not needed, but it would improve the output.
   - [Anaconda](https://docs.anaconda.com/free/anaconda/install/linux/): This is used for python package management.
   - [FFMPEG](https://itsfoss.com/ffmpeg/): This is used for video processing. You can install it from the FFMPEG website.
+  - [Gameplay Videos](https://atlantictu-my.sharepoint.com/:f:/g/personal/g00380007_atu_ie/EtTw7Fkr2cBPp9--8FJKkI4BDo6iChzpnxlDzgiWfKmjcw?e=SxVlhr): Needed for the gameplay module, files are too big for GitHub so they were uploaded elsewhere.  
 
 ## Installation
 
@@ -29,6 +30,7 @@ Before you begin, ensure you have the following installed:
 4. Install the required Python:
    <pre>pip install -r requirements.txt</pre> 
 5. Rename ``.env.template`` file to ``.env`` and fill it it with your secrets.
+6. Place all the downloaded gameplay videos into ``modules>gameplay>footage``
 
 
 ## Deployment (Development Environment)
