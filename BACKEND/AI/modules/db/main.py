@@ -158,3 +158,6 @@ class DB:
         self.connection.commit()
         print("Tables created successfully.")
 
+    def close_connection(self):
+        # self.mydb.close()
+        print('Connection closed.')
