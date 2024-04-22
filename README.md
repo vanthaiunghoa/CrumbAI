@@ -1,5 +1,6 @@
 # FYP - CrumbAI
-*By Hamiz & Daniel*
+
+_By Hamiz & Daniel_
 
 CrumbAI revolutionizes the creation of short-form video content. This AI-powered web application is crafted to streamline content creation for platforms like TikTok and YouTube Shorts. By automating critical editing tasks, CrumbAI enables content creators to produce engaging videos that captivate their audiences and enhance engagement—all from a single provided YouTube video source.
 
@@ -39,4 +40,4 @@ ClickUp is our project management hub, keeping us on track with organized tasks 
 To get started with CrumbAI, follow the links below to set up the front-end and back-end on your local machine.
 
 - [Set Up Front End](https://github.com/HamzDevelopment/CrumbAI/tree/main/FRONTEND/crumbai)
-- [Set Up Back End](https://github.com/HamzDevelopment/CrumbAI/tree/main/BACKEND)
+- [Set Up Back End](https://github.com/HamzDevelopment/CrumbAI/tree/main/BACKEND/AI)
