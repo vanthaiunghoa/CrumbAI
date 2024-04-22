@@ -41,8 +41,7 @@ class DB:
         result = self.cursor.fetchone()
         return result[0] if result else None
 
-    def save_to_database(self, youtube_url, filename, formatted_content, user_id):
-        print('Attempting to save to database...')
+    def save_to_database(self, youtube_url, filename, formatted_content, user_id, unique_id):
         table = []
         for i, content in enumerate(formatted_content):
             table.append({
@@ -50,34 +49,37 @@ class DB:
                 "end_time": content["end_time"],
                 "description": content["description"],
                 "duration": content["duration"],
-                "filename": f'http://161.97.88.202:8000/videos/{filename}/{i}_{filename}'
+                "filename": f'http://194.163.180.166:8000/videos/{filename}/{i}_{filename}'
             })
 
-        query = "INSERT INTO videos (youtube_url, videos, user) VALUES (%s, %s, %s)"
-        values = (youtube_url, json.dumps(table), user_id)
-        print(values)
+        query = "INSERT INTO videos (youtube_url, unique_id, videos, user) VALUES (%s, %s, %s, %s)"
+        values = (youtube_url, unique_id, json.dumps(table), user_id)
+        self.cursor.execute(query, values)
+        self.mydb.commit()
+
+    def save_to_database_existing(self, youtube_url, video_data, user_id, unique_id):
+        query = "INSERT INTO videos (youtube_url, unique_id, videos, user) VALUES (%s, %s, %s, %s)"
+        values = (youtube_url, unique_id, video_data, user_id)
         self.cursor.execute(query, values)
         self.mydb.commit()
 
     def get_existing_data(self, youtube_url, settings):
-        query = "SELECT * FROM videos WHERE youtube_url = %s"
+        query = "SELECT * FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
         values = (youtube_url,)
         self.cursor.execute(query, values)
         result = self.cursor.fetchone()
+        return result[2]
 
-        if result and result['videos']:
-            files = [video['filename'] for video in json.loads(result['videos'])]
-            return [file for file in files if not os.path.exists(f'tmp/{file}')]
-        return []
 
-    def does_it_exist(self, youtube_url):
-        return False
-        # query = "SELECT COUNT(*) FROM videos WHERE youtube_url = %s"
-        # values = (youtube_url,)
-        # self.cursor.execute(query, values)
-        # result = self.cursor.fetchone()
-
-        # return result[0] > 0
+    def does_it_exist(self, youtube_url, settings):
+        query = "SELECT count(*) FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
+        values = (youtube_url, json.dumps(settings))
+        self.cursor.execute(query, values)
+        result = self.cursor.fetchone()
+        if result[0] > 0:
+            return True
+        else:
+            return False
 
     def delete_clip(self, user_id, video_id):
         query = "DELETE FROM videos WHERE user = %s AND video_id = %s"
@@ -99,3 +101,4 @@ class DB:
         result = self.cursor.fetchone()
 
         return result
+
