@@ -19,6 +19,7 @@ Before you begin, ensure you have the following installed:
   - [Hugging Face API key](https://huggingface.co/settings/tokens): This is used for speech recognition. It's not needed, but it would improve the output.
   - [Anaconda](https://docs.anaconda.com/free/anaconda/install/linux/): This is used for python package management.
   - [FFMPEG](https://itsfoss.com/ffmpeg/): This is used for video processing. You can install it from the FFMPEG website.
+  - [Gameplay Videos](): 
 
 ## Installation
 
