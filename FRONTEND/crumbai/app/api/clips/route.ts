@@ -24,7 +24,7 @@ export async function GET(
 
   try {
     const response = await axios.post(
-      "http://161.97.88.202:8000/get-clips",
+      "http://194.163.180.166:8000/get-clips",
       {
         user_id: userEmail,
       },

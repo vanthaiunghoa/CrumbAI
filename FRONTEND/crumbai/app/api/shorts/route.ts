@@ -28,15 +28,28 @@ export async function GET(
     const queryString = req.url.split('shorts?')[1]; 
     const searchParams = new URLSearchParams(queryString);
     const youtubeUrl = searchParams.get('youtube_url');
+    const faceDetection = searchParams.get('face_detection');
+    const subtitles = searchParams.get('subtitles');
+    const halfGameplay = searchParams.get('half_gameplay');
     
     console.log("YouTube URL:", youtubeUrl);
+    console.log("Face Detection:", faceDetection);
+    console.log("Subtitles:", subtitles);
+    console.log("Half Gameplay:", halfGameplay);
     
     const response = await axios.post(
-      "http://161.97.88.202:8000/create",
+      "http://194.163.180.166:8000/create",
       {
         user_id: userEmail,
         youtube_url: youtubeUrl,
-        settings: [],
+        settings: {
+          face_detection: faceDetection,
+          subtitles: subtitles,
+          gameplay: {
+            enabled: halfGameplay,
+            type: "minecraft"
+          }
+        },
       },
       {
         headers: {
