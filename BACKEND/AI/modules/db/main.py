@@ -120,3 +120,41 @@ class DB:
             values = (unique_id[0],)
             self.cursor.execute(query, values)
             self.mydb.commit()
+
+    def create_tables(self):
+        self.cursor.execute("SHOW TABLES LIKE 'videos';")
+        result = self.cursor.fetchone()
+        if not result:
+            create_videos_sql = """
+                CREATE TABLE `videos` (
+                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                    `youtube_url` varchar(128) NOT NULL,
+                    `unique_id` varchar(254) NOT NULL,
+                    `videos` text NOT NULL,
+                    `user` varchar(128) NOT NULL,
+                    `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            """
+            self.cursor.execute(create_videos_sql)
+            print("Created table `videos`.")
+
+        self.cursor.execute("SHOW TABLES LIKE 'video_status';")
+        result = self.cursor.fetchone()
+        if not result:
+            create_video_status_sql = """
+                CREATE TABLE `video_status` (
+                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                    `unique_id` varchar(128) NOT NULL,
+                    `user_id` varchar(128) NOT NULL,
+                    `status` varchar(128) NOT NULL,
+                    `settings` varchar(1024) NOT NULL,
+                    PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            """
+            self.cursor.execute(create_video_status_sql)
+            print("Created table `video_status`.")
+
+        self.connection.commit()
+        print("Tables created successfully.")
+
