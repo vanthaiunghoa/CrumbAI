@@ -48,7 +48,7 @@ def create():
         return jsonify({'error': 'No user_id provided.'}), 400
 
     job_id = create_unique_id()
-    job = q.enqueue('main.create', job_timeout=2700, args=(body,job_id), job_id=job_id)
+    job = q.enqueue('main.create', job_timeout=3600, args=(body,job_id), job_id=job_id)
     return jsonify({'job_id': job.id}), 200
 
 
@@ -132,3 +132,4 @@ def get_video(path, video_id):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
+    print('Running on port 8000')
