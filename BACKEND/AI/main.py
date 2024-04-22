@@ -9,8 +9,7 @@ from modules.downloader.main import download
 from modules.transcribe.main import transcribe
 from modules.editing.main import cut_video_up
 from modules.db.main import DB
-from modules.subtitles.main import create_srt
-from modules.subtitles.main import create_subtitles
+from modules.subtitles.main import master_subtitles
 from modules.utils.main import env
 from modules.utils.main import move_dir
 import json
@@ -20,6 +19,7 @@ from redis import Redis
 print('Starting Crumb AI...')
 load_dotenv()
 db = DB(env('DB_HOST'), env('DB_USER'), env('DB_PASSWORD'), env('DB_DATABASE'))
+# db.create_tables()
 open_ai = gpt(env('OPENAI_API_KEY'), env('OPENAI_MODEL'))
 
 if __name__ == '__main__':
@@ -34,9 +34,10 @@ def create(body, job_id):
     youtube_url = body['youtube_url']
     user_id = body['user_id']
     settings = body['settings']
-    print(f'Creating video for {youtube_url} with settings {settings}.')
-    if db.does_it_exist(youtube_url):
+    if db.does_it_exist(youtube_url, settings):
         videos = db.get_existing_data(youtube_url, settings)
+        db.create_new_video(job_id, user_id, 'And we are done!', settings, videos)
+        db.save_to_database_existing(youtube_url, videos, user_id, job_id)
     else:
         db.create_new_video(job_id, user_id, 'Video is being downloaded.', settings)
         filename = download(youtube_url, job_id)
@@ -52,9 +53,9 @@ def create(body, job_id):
         db.set_status(job_id, user_id, 'Editing the video.')
         cut_video_up(filename, formatted_content)
 
-        db.save_to_database(youtube_url, job_id, formatted_content, user_id)
+        db.save_to_database(youtube_url, job_id, formatted_content, user_id, job_id)
 
-        if 'face_detection' in settings and settings['face_detection']:
+        if 'face_detection' in settings and settings['face_detection'] == True:
             db.set_status(job_id, user_id, 'Detecting faces within the video.')
             master_face_detection(filename)
 
@@ -62,23 +63,21 @@ def create(body, job_id):
         #     db.set_status(job_id, user_id, 'Cropping the video.')
         #     crop_video(filename)
 
-        if 'gameplay' in settings and settings['gameplay']:
+        if 'gameplay' in settings and settings['gameplay'] and 'enabled' in settings['gameplay'] and settings['gameplay']['enabled'] == True:
             db.set_status(job_id, user_id, 'Creating gameplay video.')
-            add_gameplay(filename, random=settings['gameplay']['option'] or True)
+            get_type_of_gameplay = settings['gameplay']['type'] or 'random'
+            add_gameplay(filename, get_type_of_gameplay)
 
 
-        if 'subtitles' in settings and settings['subtitles']:
+        if 'subtitles' in settings and settings['subtitles'] == True:
             db.set_status(job_id, user_id, 'Creating subtitles.')
-            create_srt(filename)
-            create_subtitles(filename)
+            master_subtitles(filename)
 
         db.set_status(job_id, user_id, 'Finalising the video.')
 
         for i in range(0, 10):
-            print(f'Checking if {i}_{filename} exists...')
-            if os.path.exists(f'tmp/{i}_{filename[:-4]}.mp4'):
+            if os.path.exists(f'tmp/{i}_{filename}'):
                 move_dir(f'{i}_{filename}', filename[:-4])
 
         db.set_status(job_id, user_id, 'And we are done!')
-
-
+        db.close_connection()
