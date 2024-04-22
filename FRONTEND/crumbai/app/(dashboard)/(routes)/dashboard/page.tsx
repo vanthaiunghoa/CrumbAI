@@ -2,10 +2,17 @@ import { Heading } from "@/components/heading";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LayoutDashboard } from "lucide-react";
 import { getServerSession } from "next-auth";
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const DashboardPage = async () => {
   const session = await getServerSession();
   const name = session?.user?.name;
+  const email = session?.user?.email;
+
+  // get total clips generated from database
+
   return (
     <div className="space-y-8">
       <Heading

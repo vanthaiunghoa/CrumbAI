@@ -33,3 +33,22 @@ model UserSubscription {
   stripePriceId String? @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
+
+model Video {
+  id         Int       @id @default(autoincrement())
+  youtubeUrl String? @map(name: "youtube_url")
+  videos     String    @db.Text
+  user       String    @db.VarChar(128)
+
+  @@map("videos")
+}
+
+model VideoStatus {
+  id       Int    @id @default(autoincrement())
+  uniqueId String? @map(name: "unique_id")
+  userId   String? @map(name: "user_id")
+  status   String @db.VarChar(128)
+  settings String @db.VarChar(1024)
+
+  @@map("video_status")
+}
