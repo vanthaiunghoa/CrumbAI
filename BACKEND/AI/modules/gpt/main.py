@@ -16,18 +16,21 @@ class gpt:
                 "start_time": 10.00,
                 "end_time": 60.00,
                 "description": "This is the first interesting part of the video",
+                "summary": "short summary with context to the clip e.g Joe Rogan Talking about the importance of mental health in the workplace. Leads to unexpected argument with guest.",
                 "duration": 50.00
             },
             {
                 "start_time": 70.00,
                 "end_time": 130.00,
                 "description": "This is the second interesting part of the video",
+                "summary": "short summary with context to the clip e.g Joe Rogan Talking about the importance of mental health in the workplace. Leads to unexpected argument with guest.",
                 "duration": 60.00
             },
             {
                 "start_time": 150.00,
                 "end_time": 190.00,
                 "description": "This is the third interesting part of the video",
+                "summary": "short summary with context to the clip e.g Joe Rogan Talking about the importance of mental health in the workplace. Leads to unexpected argument with guest.",
                 "duration": 40.00
             }
         ]
@@ -35,7 +38,7 @@ class gpt:
 
     def interesting_parts(self, transcript):
         try:
-            prompt = f"Given the following video transcript, analyse each part for potential virality and identify {self.amount_of_interesting_parts} most viral segments from the transcript. Each segment should have nothing less than 50 seconds in duration and more than 20 seconds, for a clip contains an interesting conversation, you can ignore the duration requirement if it goes beyond it. Do not cut the conversation off and let it finish before cutting it out. The provided transcript is as follows: {transcript}. Based on your analysis, return a JSON document containing the timestamps (start and end), the description of the viral part, and its duration. The JSON document should follow this format: {self.formatted_example}. Please replace the placeholder values with the actual results from your analysis, and name the key of the JSON 'segments'."
+            prompt = f"Given the following video transcript, analyse each part for potential virality and identify {self.amount_of_interesting_parts} most viral segments from the transcript. Each segment should have nothing less than 50 seconds in duration and more than 20 seconds, for a clip contains an interesting conversation, you can ignore the duration requirement if it goes beyond it. Do not cut the conversation off and let it finish before cutting it out. The provided transcript is as follows: {transcript}. Based on your analysis, return a JSON document containing the timestamps (start and end), the description of the viral part, the summary with context to the situation this should be said in a manner suitable for a tiktok description, and its duration. The JSON document should follow this format: {self.formatted_example}. Please replace the placeholder values with the actual results from your analysis, and name the key of the JSON 'segments'."
             system = f"You are a Viral Segment Identifier, an AI system that analyses a video's transcript and predict which segments might go viral on social media platforms. You use factors such as emotional impact, humor, unexpected content, and relevance to current trends to make your predictions. You return a structured JSON document detailing the start and end times, the description, and the duration of the potential viral segments. Evaluate the text chunks on their clarity, relevance, and ability to stand alone as engaging content without needing external context"
 
             messages = [
