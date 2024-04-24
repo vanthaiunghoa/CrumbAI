@@ -34,6 +34,7 @@ def create(body, job_id):
     youtube_url = body['youtube_url']
     user_id = body['user_id']
     settings = body['settings']
+    print(settings)
     if db.does_it_exist(youtube_url, settings):
         videos = db.get_existing_data(youtube_url, settings)
         db.create_new_video(job_id, user_id, 'And we are done!', settings, videos)
@@ -55,7 +56,7 @@ def create(body, job_id):
 
         db.save_to_database(youtube_url, job_id, formatted_content, user_id, job_id)
 
-        if 'face_detection' in settings and settings['face_detection'] == True:
+        if 'face_detection' in settings and settings['face_detection'] == 'true':
             db.set_status(job_id, user_id, 'Detecting faces within the video.')
             master_face_detection(filename)
 
@@ -63,13 +64,13 @@ def create(body, job_id):
         #     db.set_status(job_id, user_id, 'Cropping the video.')
         #     crop_video(filename)
 
-        if 'gameplay' in settings and settings['gameplay'] and 'enabled' in settings['gameplay'] and settings['gameplay']['enabled'] == True:
+        if 'gameplay' in settings and settings['gameplay'] and 'enabled' in settings['gameplay'] and settings['gameplay']['enabled'] == 'true':
             db.set_status(job_id, user_id, 'Creating gameplay video.')
             get_type_of_gameplay = settings['gameplay']['type'] or 'random'
             add_gameplay(filename, get_type_of_gameplay)
 
 
-        if 'subtitles' in settings and settings['subtitles'] == True:
+        if 'subtitles' in settings and settings['subtitles'] == 'true':
             db.set_status(job_id, user_id, 'Creating subtitles.')
             master_subtitles(filename)
 
