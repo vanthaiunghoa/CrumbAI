@@ -3,6 +3,8 @@ import os
 import mysql.connector
 import json
 
+from modules.utils.main import delete_dir
+
 
 class DB:
 
@@ -48,6 +50,7 @@ class DB:
                 "start_time": content["start_time"],
                 "end_time": content["end_time"],
                 "description": content["description"],
+                "summary": content["summary"],
                 "duration": content["duration"],
                 "filename": f'http://194.163.180.166:8000/videos/{filename}/{i}_{filename}'
             })
@@ -72,14 +75,15 @@ class DB:
 
 
     def does_it_exist(self, youtube_url, settings):
-        query = "SELECT count(*) FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
-        values = (youtube_url, json.dumps(settings))
-        self.cursor.execute(query, values)
-        result = self.cursor.fetchone()
-        if result[0] > 0:
-            return True
-        else:
-            return False
+        return False
+        # query = "SELECT count(*) FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
+        # values = (youtube_url, json.dumps(settings))
+        # self.cursor.execute(query, values)
+        # result = self.cursor.fetchone()
+        # if result[0] > 0:
+        #     return True
+        # else:
+        #     return False
 
     def delete_clip(self, user_id, video_id):
         query = "DELETE FROM videos WHERE user = %s AND video_id = %s"
@@ -114,8 +118,7 @@ class DB:
             videos = json.loads(result[0])
             for video in videos:
                 for key, value in video.items():
-                    if os.path.exists(f'videos/{value}'):
-                        os.remove(f'videos/{value}')
+                    delete_dir(value)
             query = "DELETE FROM videos WHERE unique_id = %s"
             values = (unique_id[0],)
             self.cursor.execute(query, values)
@@ -139,6 +142,7 @@ class DB:
             self.cursor.execute(create_videos_sql)
             print("Created table `videos`.")
 
+        # Check and create 'video_status' table
         self.cursor.execute("SHOW TABLES LIKE 'video_status';")
         result = self.cursor.fetchone()
         if not result:
@@ -155,6 +159,7 @@ class DB:
             self.cursor.execute(create_video_status_sql)
             print("Created table `video_status`.")
 
+        # Commit the changes if tables were created
         self.connection.commit()
         print("Tables created successfully.")
 
