@@ -45,9 +45,9 @@ Our designs begin in Figma, where we visualize and iterate on the user experienc
 
 ### ClickUp
 
-- ClickUp is our project management hub, keeping us on track with organized tasks and deadlines.
+ClickUp is our project management hub, keeping us on track with organized tasks and deadlines.
 
-[Access ClickUp Board](https://app.clickup.com/9015145729/v/s/90150323474)
+- [Access ClickUp Board](https://app.clickup.com/9015145729/v/s/90150323474)
 
 ## Getting Started
 
