@@ -10,6 +10,7 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         const { prompt, amount = 1, resolution="256x256" } = body;
+        var model = "dall-e-2";
 
         if (!openai.apiKey) {
             return new NextResponse("OpenAI API Key not configured", { status: 500 });
@@ -24,8 +25,13 @@ export async function POST(req: Request) {
             return new NextResponse("You have exceeded the free trial limit", { status: 403 });
         }
 
+        // Use the new model for single image generation due to api restrictions
+        if (parseInt(amount) == 1) {
+            model = "dall-e-3";
+        }
+
         const response = await openai.images.generate({
-            model: "dall-e-2",
+            model: model,
             prompt,
             size: resolution,
             n: parseInt(amount),

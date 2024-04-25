@@ -31,13 +31,14 @@ export const amountOptions = [
     }
 ];
 
+// Can't have correct resolutions due to api restrictions
 export const resolutionOptions = [
     {
-        value: "256x256",
+        value: "1024x1792",
         label: "TikTok Thumbnail",
     },
     {
-        value: "1024x1792",
+        value: "1792x1024",
         label: "Youtube Thumbnail",
     },
     {

@@ -62,7 +62,7 @@ const DescriptionPage = () => {
       <div>
         <Heading 
             title="Description"
-            description="Our most advanced description model"
+            description="Our most advanced description & tags model"
             icon={ScrollText}
             iconColor="#F3B13F"
             bgColor="bg-violet=500/10"

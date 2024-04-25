@@ -30,7 +30,7 @@ const ThumbnailPage = () => {
       defaultValues: {
           prompt: "",
           amount: "1",
-          resolution: "144x144"
+          resolution: "1024x1792"
       }
   });
 
@@ -60,7 +60,7 @@ const ThumbnailPage = () => {
       <div>
         <Heading 
             title="Thumbnail Generation"
-            description="Our most advanced image generator, turn your idea into a reality."
+            description="Our advanced image generator, turn your idea into a reality."
             icon={ImageDown}
             iconColor="#F3B13F"
             bgColor="bg-violet=500/10"

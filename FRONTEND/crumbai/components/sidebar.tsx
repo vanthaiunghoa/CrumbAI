@@ -30,15 +30,15 @@ const routes = [
         color: "#F3B13F",
     },
     {
-        label: "Generate Thumbnails",
-        icon: ImageDown,
-        href: "/thumbnails",
+        label: "Generate Descriptions & Tags",
+        icon: ScrollText,
+        href: "/descriptions",
         color: "#F3B13F",
     },
     {
-        label: "Generate Descriptions",
-        icon: ScrollText,
-        href: "/descriptions",
+        label: "Generate Thumbnails",
+        icon: ImageDown,
+        href: "/thumbnails",
         color: "#F3B13F",
     },
     {
