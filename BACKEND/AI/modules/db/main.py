@@ -36,11 +36,12 @@ class DB:
         self.cursor.execute(query, values)
         self.mydb.commit()
 
-    def get_status(self, unique_id, user_id):
-        query = "SELECT status FROM video_status WHERE unique_id = %s AND user_id = %s"
-        values = (unique_id, user_id)
+    def get_status(self, unique_id):
+        query = "SELECT status FROM video_status WHERE unique_id = %s"
+        values = (unique_id,)
         self.cursor.execute(query, values)
         result = self.cursor.fetchone()
+        self.mydb.commit()
         return result[0] if result else None
 
     def save_to_database(self, youtube_url, filename, formatted_content, user_id, unique_id):
@@ -67,39 +68,38 @@ class DB:
         self.mydb.commit()
 
     def get_existing_data(self, youtube_url, settings):
-        query = "SELECT * FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
-        values = (youtube_url,)
+        query = "SELECT videos FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
+        values = (youtube_url, json.dumps(settings))
         self.cursor.execute(query, values)
         result = self.cursor.fetchone()
-        return result[2]
+        return result[0]
 
 
     def does_it_exist(self, youtube_url, settings):
-        return False
-        # query = "SELECT count(*) FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
-        # values = (youtube_url, json.dumps(settings))
-        # self.cursor.execute(query, values)
-        # result = self.cursor.fetchone()
-        # if result[0] > 0:
-        #     return True
-        # else:
-        #     return False
+        query = "SELECT count(*) FROM videos INNER JOIN video_status ON videos.unique_id = video_status.unique_id WHERE youtube_url = %s AND settings = %s AND video_status.status = 'And we are done!'"
+        values = (youtube_url, json.dumps(settings))
+        self.cursor.execute(query, values)
+        result = self.cursor.fetchone()
+        if result[0] > 0:
+            return True
+        else:
+            return False
 
     def delete_clip(self, user_id, video_id):
-        query = "DELETE FROM videos WHERE user = %s AND video_id = %s"
+        query = "DELETE FROM videos WHERE user = %s AND unique_id = %s"
         values = (user_id, video_id)
         self.cursor.execute(query, values)
         self.mydb.commit()
 
     def get_clips_by_user(self, user_id):
-        query = "SELECT youtube_url, videos FROM videos WHERE user = %s"
+        query = "SELECT youtube_url, videos, unique_id, timestamp FROM videos WHERE user = %s ORDER BY timestamp DESC"
         values = (user_id,)
         self.cursor.execute(query, values)
         result = self.cursor.fetchall()
         return result
 
     def get_clip(self, user_id, video_id):
-        query = f"SELECT * FROM videos WHERE user = %s AND video_id = %s"
+        query = f"SELECT * FROM videos WHERE user = %s AND video_id = %s ORDER BY timestamp DESC LIMIT 1"
         values = (user_id, video_id)
         self.cursor.execute(query, values)
         result = self.cursor.fetchone()
@@ -107,20 +107,14 @@ class DB:
         return result
 
     def delete_old_videos(self):
-        query = "SELECT unique_id FROM video_status WHERE timestamp < DATE_SUB(NOW(), INTERVAL 2 WEEK)"
+        query = "SELECT unique_id FROM videos WHERE timestamp < DATE_SUB(NOW(), INTERVAL 2 WEEK)"
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         for unique_id in result:
-            query = "SELECT videos FROM videos WHERE unique_id = %s"
-            values = (unique_id[0],)
-            self.cursor.execute(query, values)
-            result = self.cursor.fetchone()
-            videos = json.loads(result[0])
-            for video in videos:
-                for key, value in video.items():
-                    delete_dir(value)
+            delete_dir(unique_id[0])
             query = "DELETE FROM videos WHERE unique_id = %s"
             values = (unique_id[0],)
+            print(f'Deleted video with unique_id: {unique_id[0]}')
             self.cursor.execute(query, values)
             self.mydb.commit()
 
@@ -140,7 +134,6 @@ class DB:
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             """
             self.cursor.execute(create_videos_sql)
-            print("Created table `videos`.")
 
         # Check and create 'video_status' table
         self.cursor.execute("SHOW TABLES LIKE 'video_status';")
@@ -157,12 +150,10 @@ class DB:
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             """
             self.cursor.execute(create_video_status_sql)
-            print("Created table `video_status`.")
 
-        # Commit the changes if tables were created
-        self.connection.commit()
-        print("Tables created successfully.")
+        self.mydb.commit()
 
     def close_connection(self):
-        # self.mydb.close()
+        self.cursor.close()
+        self.mydb.close()
         print('Connection closed.')
