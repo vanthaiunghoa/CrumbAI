@@ -17,6 +17,12 @@ CrumbAI revolutionizes the creation of short-form video content. This AI-powered
 - **Email:** demo@crumbai.com
 - **Password:** Demo123
 
+## Tiktok Test Account
+
+We created a Tiktok Account and posted some of the results from CrumbAI to see how effective they are.
+
+[Account](https://www.tiktok.com/@crumbshorts)
+
 ## Screencast
 
 Explore CrumbAI in action and see how it can transform your video editing workflow.
