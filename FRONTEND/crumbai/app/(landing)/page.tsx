@@ -113,15 +113,19 @@ const LandingPage = () => {
 
               <TabsTrigger value="4" className="mx-2">Auto Crop</TabsTrigger>
               <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
+              <TabsTrigger value="7" className="mx-2">Thumbnail Generation</TabsTrigger>
+              <TabsTrigger value="8" className="mx-2">Soundtrack Generation</TabsTrigger>
               <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
             </TabsList>
-            <div className="text-slate-300 text-center mt-8 text-lg">
+            <div className="text-slate-300 text-center mt-10 text-lg">
               <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
               <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
               <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
               <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
               <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
               <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
+              <TabsContent value="7">Generate eye-catching thumbnails using AI that grab attention and drive clicks, boosting your content&apos;s visibility.</TabsContent>
+              <TabsContent value="8">Set the mood with our AI-generated soundtracks, enhancing your content and captivating your audience.</TabsContent>
             </div>
           </Tabs>
         </div>
@@ -137,7 +141,6 @@ const LandingPage = () => {
                 <ul className="space-y-4">
                   <li className="flex items-start">
                     <div className="flex-shrink-0">
-                      {/* Assuming Check is a component/icon, ensure it's properly imported or replaced with an appropriate element */}
                       <Check className="h-6 w-6 text-green-500" aria-hidden="true" />
                     </div>
                     <p className="ml-3 text-white text-gray-500">
@@ -238,7 +241,7 @@ const LandingPage = () => {
                   <p className="text-zinc-400 text-sm">Podcast Host</p>
                 </div>
                 <Avatar>
-                  <AvatarImage src="https://i1.sndcdn.com/avatars-twM1pq6gSk4YzN4F-N4zKuw-t240x240.jpg" alt="@shadcn" />
+                  <AvatarImage src="./logo.png" alt="@shadcn" />
                 </Avatar>
               </CardTitle>
 
@@ -254,7 +257,7 @@ const LandingPage = () => {
                   <p className="text-zinc-400 text-sm">Youtube Tech Reviewer</p>
                 </div>
                 <Avatar>
-                  <AvatarImage src="https://i1.sndcdn.com/avatars-twM1pq6gSk4YzN4F-N4zKuw-t240x240.jpg" alt="@shadcn" />
+                  <AvatarImage src="./logo.png" alt="@shadcn" />
                 </Avatar>
               </CardTitle>
               <CardContent className="pt-4 px-0">
@@ -269,7 +272,7 @@ const LandingPage = () => {
                   <p className="text-zinc-400 text-sm">TikTok Influencer</p>
                 </div>
                 <Avatar>
-                  <AvatarImage src="https://i1.sndcdn.com/avatars-twM1pq6gSk4YzN4F-N4zKuw-t240x240.jpg" alt="@shadcn" />
+                  <AvatarImage src="./logo.png" alt="@shadcn" />
                 </Avatar>
               </CardTitle>
               <CardContent className="pt-4 px-0">
