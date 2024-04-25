@@ -70,7 +70,7 @@ const AudioPage = () => {
                                         <Input
                                             className="bg-[#232323] border-0 p-3 focus:outline-none"
                                             disabled={isLoading}
-                                            placeholder="Explosion sound effect..."
+                                            placeholder="Create me a piano elevator music..."
                                             {...field}
                                         />
                                     </FormControl>

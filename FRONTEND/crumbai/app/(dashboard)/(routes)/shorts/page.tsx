@@ -64,7 +64,7 @@ const ShortsPage = () => {
   const fetchStatus = useCallback(async () => {
     const statusResponse = await axios.get("/api/status?job_id=" + jobId);
     setStatus(statusResponse.data.status);
-    if (statusResponse.data.status === 'And we are done!' || statusResponse.data.status.includes('Error')) {
+    if (statusResponse.data.status === 'And we are done! Head to "Your Clips" page to view your video.' || statusResponse.data.status.includes('Error')) {
       setIsSubmitted(false);  // Re-enable the button if job is completed or failed
     }
   }, [jobId]);

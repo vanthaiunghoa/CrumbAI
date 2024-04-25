@@ -217,7 +217,7 @@ const LandingPage = () => {
                     </p>
                   </li>
                 </ul>
-                <h1 className="text-white text-center font-bold pt-5 text-2xl">$20/<small className="text-base">monthly</small></h1>
+                <h1 className="text-white text-center font-bold pt-5 text-2xl">$10/<small className="text-base">monthly</small></h1>
               </div>
               <div className="px-8 pb-8 flex-none">
                 <Button variant="pricing" className="w-full md:text-lg p-4 md:p-6 rounded-md font-semibold py-2">
