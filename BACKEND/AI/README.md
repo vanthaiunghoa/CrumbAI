@@ -2,14 +2,14 @@
 
 ## Getting Started
 
-This project is a video editing tool that uses AI to analyze and edit videos. It employs OpenAI's GPT-4 model for content analysis, Redis for job queue management, MySQL for data storage, local file storage for storing videos, FFMPEG for video editing, and more. The project is designed to run on a Linux server with at least 8GB of RAM and a powerful CPU due to the resource-intensive nature of the face detection process and Redis' requirement for a Linux OS.
+This project is a video editing tool that uses AI to analyze and edit videos. It employs OpenAI's GPT-4 model for content analysis, Redis for job queue management, MySQL for data storage, local file storage for storing videos, FFMPEG for video editing, and more. The project is designed to run on a Linux OS with at least 8GB of RAM and a powerful CPU due to the resource-intensive nature of the face detection process and Redis' requirement for a Linux OS.
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
-- **Linux Server:**
-  - The server should have at least 8GB of RAM and a powerful CPU.
+- **Linux OS or Linux Server:**
+  - The system should have at least 8GB of RAM and a powerful CPU.
   - A Debian-based OS is recommended.
 
 - **OpenAI API Key** ([Obtain here](https://platform.openai.com/api-keys)):
