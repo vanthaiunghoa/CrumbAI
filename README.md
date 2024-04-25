@@ -8,8 +8,8 @@ CrumbAI revolutionizes the creation of short-form video content. This AI-powered
 
 - **AI-Powered Shorts Generation**: Harness the power of AI for efficient segment detection, subtitle generation, cropping, face detection and more.
 - **Generative AI**: Generate descriptions, tags, thumbnails and audio.
-- **NextAuth:**: Login using social media or using normal email registration and login.
-- **Stripe:** Get unlimited access to all features with a monthly subscription.
+- **Advanced User Authentication:**: Using NextAuth users can log in using social media or normal email registration.
+- **Subscription-Based Access:** We utilize Stripe to handle monthly subscription payments, offering users unlimited access to all features.
 
 ## Demo
 
@@ -21,35 +21,35 @@ CrumbAI revolutionizes the creation of short-form video content. This AI-powered
 
 We created a Tiktok Account and posted some of the results from CrumbAI to see how effective they are.
 
-- [Account](https://www.tiktok.com/@crumbshorts)
+- [View TikTok Account](https://www.tiktok.com/@crumbshorts)
 
 ## Screencast
 
-Explore CrumbAI in action and see how it can transform your video editing workflow.
+Watch our screencast to see CrumbAI in action and discover how it can transform your video editing workflow:
 
 - [Watch Screencast](#)
 
-## Wireframes
+## Development Process Insights
+
+### Wireframes
 
 Get a glimpse into our design process and user experience planning with our detailed wireframes.
 
 - [View Wireframes](https://github.com/HamzDevelopment/CrumbAI/tree/main/WIREFRAMES)
-
-## Development Tools
-
-### Figma
+- 
+### Design & Prototyping with Figma
 
 Our designs begin in Figma, where we visualize and iterate on the user experience and architecture.
 
 - [View Figma Project](https://www.figma.com/file/mCqg33JAgY8THT4YfxQBLt/CrumbAI?type=whiteboard&node-id=0%3A1&t=E0eyaIER22gMJScG-1)
 
-### ClickUp
+### Project Management with ClickUp
 
 ClickUp is our project management hub, keeping us on track with organized tasks and deadlines.
 
 - [Access ClickUp Board](https://app.clickup.com/9015145729/v/s/90150323474)
 
-## Getting Started
+## Setting Up CrumbAI
 
 To get started with CrumbAI, follow the links below to set up the front-end and back-end on your local machine.
 
