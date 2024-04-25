@@ -23,6 +23,7 @@ export async function POST(req: Request) {
 
     const session = event.data.object as Stripe.Checkout.Session;
 
+    // Handle the checkout.session.completed event
     if (event.type === "checkout.session.completed") {
         const subscription = await stripe.subscriptions.retrieve(
             session.subscription as string
@@ -32,6 +33,7 @@ export async function POST(req: Request) {
             return new NextResponse("User Email not found", { status:400 } )
         }
 
+        // Create a new userSubscription record in the database
         await prisma.userSubscription.create({
             data: {
                 userEmail: session?.metadata?.userEmail,
@@ -50,6 +52,7 @@ export async function POST(req: Request) {
             session.subscription as string
         );
 
+        // Update the userSubscription record with the new subscription details
         await prisma.userSubscription.update({
             where: {
               stripeSubscriptionId: subscription.id  

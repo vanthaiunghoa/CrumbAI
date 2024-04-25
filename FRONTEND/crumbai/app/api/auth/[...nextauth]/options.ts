@@ -13,6 +13,7 @@ export const options: NextAuthOptions = {
         strategy: 'jwt'
     },
     providers: [
+        // OAuth Provider
         GitHubProvider({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string
@@ -47,6 +48,7 @@ export const options: NextAuthOptions = {
                     return null
                 }
 
+                // Find user in database
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email
@@ -57,6 +59,7 @@ export const options: NextAuthOptions = {
                     return null
                 }
 
+                // Check if password is valid
                 const isPasswordValid = await compare(
                     credentials.password,
                     user.password
@@ -75,43 +78,6 @@ export const options: NextAuthOptions = {
             }
         })
     ],
-    // callbacks: {
-    //     session: ({ session, token }) => {
-    //       console.log('Session Callback', { session, token })
-    //       return {
-    //         ...session,
-    //         user: {
-    //           ...session.user,
-    //           id: token.id,
-    //           randomKey: token.randomKey
-    //         }
-    //       }
-    //     },
-    //     // session({ session, token }) {
-    //     //     session.user.id = token.id
-
-    //     //     return session
-    //     // },
-    //     jwt: ({ token, user }) => {
-    //       console.log('JWT Callback', { token, user })
-    //       if (user) {
-    //         const u = user as unknown as any
-    //         return {
-    //           ...token,
-    //           id: u.id,
-    //           randomKey: u.randomKey
-    //         }
-    //       }
-    //       return token
-    //     }
-    //     // jwt({ token, account, user }) {
-    //     //     if (account) {
-    //     //         token.accessToken = account.access_token
-    //     //         token.id = user?.id
-    //     //     }
-    //     //     return token
-    //     // }
-    // }
     callbacks: {
         async jwt({ token, user }) {
           if (user) {
