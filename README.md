@@ -6,8 +6,16 @@ CrumbAI revolutionizes the creation of short-form video content. This AI-powered
 
 ## Features
 
-- **AI-Powered Shorts Generation**: Harness the power of AI for efficient segment detection, subtitle generation and face detection.
-- **Generative AI**:
+- **AI-Powered Shorts Generation**: Harness the power of AI for efficient segment detection, subtitle generation, cropping, face detection and more.
+- **Generative AI**: Generate descriptions, tags, thumbnails and audio.
+- **NextAuth:**: Login using social media or using normal email registration and login.
+- **Stripe:** Get unlimited access to all features with a monthly subscription.
+
+## Demo
+
+- **URL:** https://crumbai.com
+- **Email:** demo@crumbai.com
+- **Password:** Demo123
 
 ## Screencast
 
