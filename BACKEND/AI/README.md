@@ -11,7 +11,7 @@ Before you begin, ensure you have the following installed:
 
   - Linux server: The server should have at least 8GB of RAM and a powerful CPU.
     - A Debian-based OS is recommended.
-    - **Further Prerequisites would need to be install on a Linux OS not Windows OS.**
+    - **Further prerequisites would need to be installed on a Linux OS not Windows OS.**
   - [OpenAI API Key](https://platform.openai.com/api-keys)
     - You do need credits, but the usage is low. At least €1.
   - [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/): This is used for job queue management.
