@@ -8,10 +8,12 @@ Follow these instructions to set up the project locally for development and test
 
 You will need the following installed on your system:
 
-- Git: For cloning the repository and version control management.
-- MySQL: As the database for storing application data.
-- Node.js (LTS version): JavaScript runtime needed to run the project.
-- npm: Node Package Manager, for managing the project's dependencies.
+- **Git** ([Installation guide](https://git-scm.com/downloads)):
+  - For cloning the repository and version control management.
+- **MySQL** ([Installation guide](https://dev.mysql.com/downloads/installer/)):
+  - As the database for storing application data.
+- **Node.js (LTS version)** ([Installation guide](https://nodejs.org/en/download)):
+  - JavaScript runtime needed to run the project. 
 
 ### Installation
 
