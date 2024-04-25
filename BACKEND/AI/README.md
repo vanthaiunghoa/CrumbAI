@@ -31,29 +31,69 @@ Before you begin, ensure you have the following installed:
 
 ## Installation
 
-1. Clone the repository to your local machine.
-2. Navigate to the AI folder.
-3. Create a new Anaconda environment and activate it:
-   <pre>conda create --name myenv conda activate myenv</pre> 
-4. Install the required Python:
-   <pre>pip install -r requirements.txt</pre> 
-5. Rename ``.env.template`` file to ``.env`` and fill it it with your secrets.
-6. Place all the downloaded gameplay videos into ``modules>gameplay>footage``
+Follow these steps to set up the project on your local machine:
 
+1. **Clone the Repository:**
+   - Clone the repository to your local machine using the following command (If you have not already):
+     ```
+     git clone [[URL of the Repository]](https://github.com/HamzDevelopment/CrumbAI.git)
+     ```
+
+2. **Navigate to the Project Directory:**
+   - Change into the directory where the AI components of the project are located:
+     ```
+     cd CrumbAI/BACKEND/AI/
+     ```
+
+3. **Set Up the Anaconda Environment:**
+   - Create a new Anaconda environment and activate it using:
+     ```bash
+     conda create --name myenv python=3.8
+     conda activate myenv
+     ```
+   - Ensure you replace `myenv` with your desired environment name and specify the Python version if necessary.
+
+4. **Install Required Dependencies:**
+   - Install all the necessary Python libraries specified in `requirements.txt`:
+     ```
+     pip install -r requirements.txt
+     ```
+
+5. **Configure Environment Variables:**
+   - Rename the `.env.template` file to `.env`.
+   - Within Linux:
+     ```
+     mv .env.template .env
+     ```
+   - Open the `.env` file in a text editor and fill it with your secrets and configurations.
+
+6. **Prepare Gameplay Footage:**
+   - Place all the downloaded gameplay videos into the `modules/gameplay/footage` directory inside the `BACKEND/AI` directory, to ensure they can be accessed by the application.
 
 ## Deployment (Development Environment)
 
-To deploy the application, you need to run both the web.py and main.py scripts. You can do this by opening two terminal windows, navigating to the project directory in each, and running the scripts:
+To run the application in a development environment, you need to launch both the web server and the main application script. Follow these steps to deploy:
 
-Terminal 1:
-```
-python web.py
-```
+1. **Open Two Terminal Windows:**
+   - Ensure that your Anaconda environment is activated in both terminals:
+     ```
+     conda activate myenv
+     ```
 
-Terminal 2:
-```
-python main.py
-```
+2. **Run the Web Server:**
+   - In the first terminal, navigate to the project directory and start the web server by running:
+     ```
+     python web.py
+     ```
+
+3. **Run the Main Application Script:**
+   - In the second terminal, navigate to the project directory and execute the main script:
+     ```
+     python main.py
+     ```
+
+This setup will allow you to run and test the application locally, facilitating the development and testing of new features or debugging current issues.
+
 
 ## API Endpoints
 
