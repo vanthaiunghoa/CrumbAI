@@ -30,7 +30,7 @@ export async function GET(
     const jobId = searchParams.get('job_id'); 
         
     const response = await axios.post(
-      "http://194.163.180.166:8000/status",
+      "https://api.crumbai.com/status",
       {
         user_id: userEmail,
         job_id: jobId,
@@ -38,7 +38,7 @@ export async function GET(
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer test",
+          Authorization: "Bearer "+process.env.BEARER_TOKEN,
         },
       }
     );

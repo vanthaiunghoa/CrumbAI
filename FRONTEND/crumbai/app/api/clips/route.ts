@@ -24,14 +24,14 @@ export async function GET(
 
   try {
     const response = await axios.post(
-      "http://194.163.180.166:8000/get-clips",
+      "https://api.crumbai.com/get-clips",
       {
         user_id: userEmail,
       },
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer test",
+          Authorization: "Bearer "+process.env.BEARER_TOKEN,
         },
       }
     );

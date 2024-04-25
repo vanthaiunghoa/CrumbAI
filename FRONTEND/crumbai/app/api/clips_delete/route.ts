@@ -28,7 +28,7 @@ export async function GET(
 
   try {
     const response = await axios.post(
-      "http://194.163.180.166:8000/delete",
+      "https://api.crumbai.com/delete",
       {
         video_id: unique_id,
         user_id: userEmail,
@@ -36,7 +36,7 @@ export async function GET(
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer test",
+          Authorization: "Bearer "+process.env.BEARER_TOKEN,
         },
       }
     );
