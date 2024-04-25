@@ -47,4 +47,8 @@ Terminal 2:
 python main.py
 ```
 
+## API Endpoints
+
+[Documenation](https://github.com/HamzDevelopment/CrumbAI/blob/main/BACKEND/AI/api-endpoints.md)
+
 
