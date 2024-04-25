@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { getProviders, signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Github, Chrome, Instagram } from 'lucide-react';
+import { Github, Chrome } from 'lucide-react';
 
 type Provider = {
   id: string;
@@ -32,6 +32,7 @@ export const Form = () => {
     fetchProviders();
   }, []);
 
+  // Function to handle form submission
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -86,14 +87,14 @@ export const Form = () => {
     </form>
     <div className="mt-4">
       <p className="text-center">Or sign in with:</p>
-      <div className="flex justify-center space-x-4 mt-2">
+      <div className="flex justify-center mt-2">
         {providers &&
+            // Loop through the providers and display a button for each
             Object.values(providers).map((provider) => (
               <div key={provider.name}>
                 <button onClick={() => signIn(provider.id, { callbackUrl: '/dashboard' })}>
-                  {provider.name === 'GitHub' && <Github size={24} />}
-                  {provider.name === 'Google' && <Chrome size={24} />}
-                  {provider.name === 'Instagram' && <Instagram size={24} />}
+                  {provider.name === 'GitHub' && <Github className="m-2" size={24} />}
+                  {provider.name === 'Google' && <Chrome className="m-2" size={24} />}
                 </button>
               </div>
             ))}
