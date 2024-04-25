@@ -67,12 +67,13 @@ def status():
     """
     body = request.get_json()
     job_id = body.get('job_id')
-    user_id = body.get('user_id')
-    if not job_id or not user_id:
-        return jsonify({'error': 'No job_id or user_id provided.'}), 400
-    status = db.get_status(job_id, user_id)
-
-    return jsonify({'status': status}), 200
+    if not job_id:
+        return jsonify({'error': 'No job_id provided.'}), 400
+    status = db.get_status(job_id)
+    if status is None:
+        return jsonify({'error': 'No job found.'}), 404
+    else:
+        return jsonify({'status': status}), 200
 
 @app.route('/status-2', methods=['POST'])
 def status_2():
@@ -162,6 +163,8 @@ def delete_old_videos():
 if __name__ == '__main__':
     # Run the Flask application
     app.run(host='0.0.0.0', port=env('SERVER_PORT'), debug=env('FLASK_DEBUG'))
+    # Schedule the deletion of old videos
     schedule.every(1).hours.do(delete_old_videos)
+    # Start the background task
     scedule_thread = threading.Thread(target=run_schedule)
     scedule_thread.start()
