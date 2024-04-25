@@ -29,4 +29,4 @@ def delete_dir(filename):
         Delete files from tmp folder.
     """
     if os.path.exists(f'videos/{filename}'):
-        os.system(f'rm videos/{filename}')
+        os.system(f'rm -rf videos/{filename}')
