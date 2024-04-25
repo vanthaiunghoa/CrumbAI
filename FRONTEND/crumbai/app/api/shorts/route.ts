@@ -45,7 +45,7 @@ export async function GET(
     }
     
     const response = await axios.post(
-      "http://194.163.180.166:8000/create",
+      "https://api.crumbai.com/create",
       {
         user_id: userEmail,
         youtube_url: youtubeUrl,
@@ -61,7 +61,7 @@ export async function GET(
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer test",
+          Authorization: "Bearer "+process.env.BEARER_TOKEN,
         },
       }
     );
