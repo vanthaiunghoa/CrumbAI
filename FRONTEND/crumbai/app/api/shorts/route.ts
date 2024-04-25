@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { NextResponse } from "next/server";
+import { increaseApiLimit, checkApiLimit }  from "@/lib/api-limit";
 
 export async function GET(
     req: any,
@@ -16,6 +17,12 @@ export async function GET(
 ) {
   const session = await getServerSession();
   const userEmail = session?.user?.email ?? "";
+
+  const freeTrial = await checkApiLimit();
+
+  if (!freeTrial) {
+      return new NextResponse("You have exceeded the free trial limit", { status: 403 });
+  }
 
   if (!userEmail) {
     console.log("Not Authorized");
@@ -31,11 +38,11 @@ export async function GET(
     const faceDetection = searchParams.get('face_detection');
     const subtitles = searchParams.get('subtitles');
     const halfGameplay = searchParams.get('half_gameplay');
+    var enabledGameplay = "true";
     
-    console.log("YouTube URL:", youtubeUrl);
-    console.log("Face Detection:", faceDetection);
-    console.log("Subtitles:", subtitles);
-    console.log("Half Gameplay:", halfGameplay);
+    if (halfGameplay == "none") {
+      enabledGameplay = "false";
+    }
     
     const response = await axios.post(
       "http://194.163.180.166:8000/create",
@@ -46,8 +53,8 @@ export async function GET(
           face_detection: faceDetection,
           subtitles: subtitles,
           gameplay: {
-            enabled: halfGameplay,
-            type: "minecraft"
+            enabled: enabledGameplay,
+            type: halfGameplay
           }
         },
       },
@@ -58,6 +65,9 @@ export async function GET(
         },
       }
     );
+
+    await increaseApiLimit();
+
     return new NextResponse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error generating shorts:", error);
