@@ -31,7 +31,7 @@ export async function GET(
     
     // Get the status of the job with the given job_id
     const response = await axios.post(
-      "https://api.crumbai.com/status",
+      process.env.BACKEND_URL+"/status",
       {
         user_id: userEmail,
         job_id: jobId,

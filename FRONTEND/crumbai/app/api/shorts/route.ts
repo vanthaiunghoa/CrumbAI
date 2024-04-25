@@ -44,9 +44,16 @@ export async function GET(
       enabledGameplay = "false";
     }
     
+    // Check if a youtube url is provided
+    if (!youtubeUrl) {
+      return new NextResponse(JSON.stringify({ error: "No youtube url provided" }), {
+        status: 400,
+      });
+    }
+
     // Generate shorts for the user with the given email and youtube url and settings
     const response = await axios.post(
-      "https://api.crumbai.com/create",
+      process.env.BACKEND_URL+"/create",
       {
         user_id: userEmail,
         youtube_url: youtubeUrl,

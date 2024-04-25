@@ -25,7 +25,7 @@ export async function GET(
   try {
     // Get all clips for the user with the given email
     const response = await axios.post(
-      "https://api.crumbai.com/get-clips",
+      process.env.BACKEND_URL+"/get-clips",
       {
         user_id: userEmail,
       },
