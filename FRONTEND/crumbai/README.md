@@ -7,9 +7,11 @@ Follow these instructions to set up the project locally for development and test
 ### Prerequisites
 
 You will need the following installed on your system:
-- git
-- Node.js (LTS version)
-- npm
+
+- Git: For cloning the repository and version control management.
+- MySQL: As the database for storing application data.
+- Node.js (LTS version): JavaScript runtime needed to run the project.
+- npm: Node Package Manager, for managing the project's dependencies.
 
 ### Installation
 
@@ -49,4 +51,5 @@ npm run dev
 
 - [Next.js](https://nextjs.org/) - The React framework used for server-side rendering and static site generation.
 - [ShadCN UI](https://ui.shadcn.com/) - For building high-quality, accessible design system components.
+- [Prisma](https://www.prisma.io/) - Next-generation ORM for Node.js and TypeScript, used for database management.
 - [TypeScript](https://www.typescriptlang.org/) - For type-safe code.
