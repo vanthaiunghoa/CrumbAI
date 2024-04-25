@@ -27,6 +27,7 @@ export async function GET(
   const unique_id = searchParams.get('unique_id'); 
 
   try {
+    // Delete the clip with the given unique_id
     const response = await axios.post(
       "https://api.crumbai.com/delete",
       {

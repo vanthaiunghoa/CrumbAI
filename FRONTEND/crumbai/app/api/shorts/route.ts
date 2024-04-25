@@ -44,6 +44,7 @@ export async function GET(
       enabledGameplay = "false";
     }
     
+    // Generate shorts for the user with the given email and youtube url and settings
     const response = await axios.post(
       "https://api.crumbai.com/create",
       {

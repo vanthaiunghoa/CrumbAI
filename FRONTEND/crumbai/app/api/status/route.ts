@@ -28,7 +28,8 @@ export async function GET(
     const queryString = req.url.split('?')[1]; 
     const searchParams = new URLSearchParams(queryString); 
     const jobId = searchParams.get('job_id'); 
-        
+    
+    // Get the status of the job with the given job_id
     const response = await axios.post(
       "https://api.crumbai.com/status",
       {

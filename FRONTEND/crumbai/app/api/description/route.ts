@@ -25,13 +25,16 @@ export async function POST(req: Request) {
             return new NextResponse("You have exceeded the free trial limit", { status: 403 });
         }
 
+        // Create a context for the description
         const descriptionContext = {
             role: 'system',
             content: "You are an AI trained to generate a short appealing description and tags for there video based off the information they give you. It must be a maximum of 50 words."
         };
 
+        // Add the description context to the messages
         const updatedMessages = [descriptionContext, ...messages];
 
+        // Call the OpenAI API
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: updatedMessages

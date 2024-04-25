@@ -22,6 +22,7 @@ export async function GET() {
             }
         });
 
+        // If the user has a subscription, redirect them to the Stripe portal
         if (userSubscription && userSubscription.stripeCustomerId) {
             const stripeSession = await stripe.billingPortal.sessions.create({
                 customer: userSubscription.stripeCustomerId,
@@ -31,6 +32,7 @@ export async function GET() {
             return new NextResponse(JSON.stringify({ url: stripeSession.url }));
         } else {
             try {
+                // Create a new Stripe session for the user to subscribe to the CrumbAI Unlimited plan
                 const stripeSession = await stripe.checkout.sessions.create({
                     success_url: settingsUrl,
                     cancel_url: settingsUrl,

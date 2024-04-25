@@ -30,6 +30,7 @@ export async function POST(req: Request) {
             model = "dall-e-3";
         }
 
+        // Call the OpenAI API
         const response = await openai.images.generate({
             model: model,
             prompt,
