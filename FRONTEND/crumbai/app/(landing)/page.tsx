@@ -38,7 +38,7 @@ const LandingPage = () => {
             <Image fill alt="Logo" src="/logo.png" />
           </div>
         </Link>
-        <div className="flex items-center gap-x-2 ">
+        <div className="flex items-center gap-x-2 flex-wrap">
           <Link href="#features">
             <Button variant="link" className="text-white">
               Features
@@ -102,40 +102,41 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="bg-[#232323] px-10 pb-20" id="features">
+      <div className="bg-[#232323] px-4 pb-20" id="features">
         <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Features</h2>
-        <div className="grid">
-          <Tabs defaultValue="1" className="w-full">
-            <TabsList className="flex flex-wrap justify-center gap-y-5 bg-[#232323] text-white" loop={true}>
-              <TabsTrigger value="1" className="mx-2">Subtitle Generation</TabsTrigger>
-              <TabsTrigger value="2" className="mx-2">Active Speaker Generation</TabsTrigger>
-              <TabsTrigger value="3" className="mx-2">Detect Viral Moments</TabsTrigger>
-
-              <TabsTrigger value="4" className="mx-2">Auto Crop</TabsTrigger>
-              <TabsTrigger value="5" className="mx-2">Description/Tags Generation</TabsTrigger>
-              <TabsTrigger value="7" className="mx-2">Thumbnail Generation</TabsTrigger>
-              <TabsTrigger value="8" className="mx-2">Soundtrack Generation</TabsTrigger>
-              <TabsTrigger value="6" className="mx-2">Seamless Uploading</TabsTrigger>
-            </TabsList>
-            <div className="text-slate-300 text-center mt-10 text-lg">
-              <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
-              <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
-              <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
-              <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
-              <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
-              <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
-              <TabsContent value="7">Generate eye-catching thumbnails using AI that grab attention and drive clicks, boosting your content&apos;s visibility.</TabsContent>
-              <TabsContent value="8">Set the mood with our AI-generated soundtracks, enhancing your content and captivating your audience.</TabsContent>
-            </div>
-          </Tabs>
+        <div className="tabs-container mx-auto w-full max-w-4xl">
+        <Tabs defaultValue="1" className="w-full">
+      <div className="flex flex-row mb-20">
+        <TabsList className="flex flex-row flex-wrap justify-center gap-4 bg-[#232323] p-4">
+          <TabsTrigger value="1" className="text-white w-full sm:w-auto">Subtitle Generation</TabsTrigger>
+          <TabsTrigger value="2" className="text-white w-full sm:w-auto">Active Speaker Generation</TabsTrigger>
+          <TabsTrigger value="3" className="text-white w-full sm:w-auto">Detect Viral Moments</TabsTrigger>
+          <TabsTrigger value="4" className="text-white w-full sm:w-auto">Auto Crop</TabsTrigger>
+          <TabsTrigger value="5" className="text-white w-full sm:w-auto">Description/Tags Generation</TabsTrigger>
+          <TabsTrigger value="6" className="text-white w-full sm:w-auto">Seamless Uploading</TabsTrigger>
+          <TabsTrigger value="7" className="text-white w-full sm:w-auto">Thumbnail Generation</TabsTrigger>
+          <TabsTrigger value="8" className="text-white w-full sm:w-auto">Soundtrack Generation</TabsTrigger>
+        </TabsList>
+        <div className="text-slate-300 tabs-content pt-8 sm:ml-8 w-full text-center">
+          <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
+          <TabsContent value="2">Never miss a beat – our system pinpoints who's speaking, keeping your content sharp and audience tuned in.</TabsContent>
+          <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
+          <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
+          <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
+          <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
+          <TabsContent value="7">Generate eye-catching thumbnails using AI that grab attention and drive clicks, boosting your content's visibility.</TabsContent>
+          <TabsContent value="8">Set the mood with our AI-generated soundtracks, enhancing your content and captivating your audience.</TabsContent>
+        </div>
+      </div>
+    </Tabs>
         </div>
       </div>
 
       <div className="bg-[#1e1e1e] px-10 pb-20" id="pricing">
         <h2 className="text-center text-4xl text-white font-extrabold mb-10 pt-10">Pricing Plans</h2>
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl">
-            <div className="bg-[#232323] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col" style={{ minWidth: '420px', maxWidth: '400px' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full">
+            <div className="bg-[#232323] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col">
               <div className="p-8 flex-grow">
                 <h3 className="text-center text-3xl text-white font-semibold mb-4">Free</h3>
                 <ul className="space-y-4">
@@ -172,7 +173,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="bg-[#232323] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col" style={{ minWidth: '420px', maxWidth: '400px' }}>
+            <div className="bg-[#232323] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col">
               <div className="p-6 flex-grow">
                 <h3 className="text-center text-3xl text-white font-semibold mb-4">Unlimited</h3>
                 <ul className="space-y-4">
