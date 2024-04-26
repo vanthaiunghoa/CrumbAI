@@ -27,7 +27,7 @@ We created a Tiktok Account and posted some of the results from CrumbAI to see h
 
 Watch our screencast to see CrumbAI in action and discover how it can transform your video editing workflow:
 
-- [Watch Screencast](https://atlantictu-my.sharepoint.com/personal/g00379404_atu_ie/_layouts/15/stream.aspx?id=%2Fpersonal%2Fg00379404%5Fatu%5Fie%2FDocuments%2FCrumbAI%2Emp4&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview)
+- [Watch Screencast](https://atlantictu-my.sharepoint.com/:v:/g/personal/g00379404_atu_ie/EbomREMD-URBi_WKeH-_u54Bh2Z6W1X1MtgBl6lIGvtT1A?e=060DgM)
 
 ## Development Process Insights
 
