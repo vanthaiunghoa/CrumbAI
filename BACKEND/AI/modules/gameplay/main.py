@@ -32,7 +32,7 @@ def add_gameplay(filename, random_video):
             # Find a gameplay video that actually exists in the directory
             while found_gameplay is None:
                 gameplay = get_gameplay(random_video)
-                if os.path.exists(f'footage/{gameplay}'):
+                if os.path.exists(f'modules/gameplay/footage/{gameplay}'):
                     found_gameplay = gameplay
 
             tmp_abs_path = os.path.abspath(f'tmp/{i}_{filename}')
