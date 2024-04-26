@@ -6,6 +6,7 @@ import { Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { set } from "zod";
 import { Checkbox } from "@/components/ui/checkbox"
+import { useProModal } from "@/hooks/use-pro-modal";
 
 const ShortsPage = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
@@ -18,6 +19,8 @@ const ShortsPage = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const proModal = useProModal();
 
   const handleUrlChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -54,8 +57,12 @@ const ShortsPage = () => {
       setJobId(response.data.job_id);
       setIsSuccess(true);  // Show success message
       setStatus('Processing...');
-    } catch (error) {
-      setStatus('Failed to submit job');
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        setStatus('Failed to submit job');
+      }
       setIsSubmitted(false);  // Re-enable button on failure
       console.error('Error generating shorts:', error);
     }
@@ -93,12 +100,12 @@ const ShortsPage = () => {
         >
           <input
             type="text"
-            className="bg-[#232323] lg:col-span-7 border-0 p-3 focus:outline-none"
+            className="bg-[#232323] col-span-12 lg:col-span-7 border-0 p-3 focus:outline-none"
             placeholder="https://www.youtube.com/watch?v=..."
             value={youtubeUrl}
             onChange={handleUrlChange}
           />
-          <div className="col-span-5 flex justify-center items-center gap-4">
+          <div className="col-span-12 lg:col-span-5 flex justify-center items-center gap-4">
             <div className="flex items-center space-x-2">
               <label htmlFor="faceDetection" className="text-sm font-medium">Face Detection</label>
               <input
