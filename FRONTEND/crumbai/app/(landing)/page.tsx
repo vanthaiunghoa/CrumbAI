@@ -119,12 +119,12 @@ const LandingPage = () => {
         </TabsList>
         <div className="text-slate-300 tabs-content pt-8 sm:ml-8 w-full text-center">
           <TabsContent value="1">Instantly transform dialogue into text with our AI-driven subtitles, enhancing accessibility and boosting engagement.</TabsContent>
-          <TabsContent value="2">Never miss a beat – our system pinpoints who's speaking, keeping your content sharp and audience tuned in.</TabsContent>
+          <TabsContent value="2">Never miss a beat – our system pinpoints who&apos;s speaking, keeping your content sharp and audience tuned in.</TabsContent>
           <TabsContent value="3">Spot potential viral hits with our detecting feature, ready to catapult your content into the spotlight.</TabsContent>
           <TabsContent value="4">Frame your shots to perfection. Our auto-crop adapts to the main action, ensuring your content always looks its best.</TabsContent>
           <TabsContent value="5">Craft compelling descriptions and tags effortlessly, driving discoverability and connecting with your target audience.</TabsContent>
           <TabsContent value="6">Upload your masterpiece with ease. Our seamless integration means your content goes from edit to live in a flash.</TabsContent>
-          <TabsContent value="7">Generate eye-catching thumbnails using AI that grab attention and drive clicks, boosting your content's visibility.</TabsContent>
+          <TabsContent value="7">Generate eye-catching thumbnails using AI that grab attention and drive clicks, boosting your content&apos;s visibility.</TabsContent>
           <TabsContent value="8">Set the mood with our AI-generated soundtracks, enhancing your content and captivating your audience.</TabsContent>
         </div>
       </div>
