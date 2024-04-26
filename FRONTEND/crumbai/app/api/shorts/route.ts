@@ -38,10 +38,10 @@ export async function GET(
     const faceDetection = searchParams.get('face_detection');
     const subtitles = searchParams.get('subtitles');
     const halfGameplay = searchParams.get('half_gameplay');
-    var enabledGameplay = "true";
+    var enabledGameplay = "false";
     
-    if (halfGameplay == "none") {
-      enabledGameplay = "false";
+    if (halfGameplay == "minecraft" || halfGameplay == "gta" || halfGameplay == "cluster") {
+      enabledGameplay = "true";
     }
     
     // Check if a youtube url is provided
