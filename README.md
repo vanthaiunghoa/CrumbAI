@@ -27,7 +27,7 @@ We created a Tiktok Account and posted some of the results from CrumbAI to see h
 
 Watch our screencast to see CrumbAI in action and discover how it can transform your video editing workflow:
 
-- [Watch Screencast](#)
+- [Watch Screencast](https://atlantictu-my.sharepoint.com/personal/g00379404_atu_ie/_layouts/15/stream.aspx?id=%2Fpersonal%2Fg00379404%5Fatu%5Fie%2FDocuments%2FCrumbAI%2Emp4&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview)
 
 ## Development Process Insights
 
@@ -36,7 +36,7 @@ Watch our screencast to see CrumbAI in action and discover how it can transform 
 Get a glimpse into our design process and user experience planning with our detailed wireframes.
 
 - [View Wireframes](https://github.com/HamzDevelopment/CrumbAI/tree/main/WIREFRAMES)
-- 
+  
 ### Design & Prototyping with Figma
 
 Our designs begin in Figma, where we visualize and iterate on the user experience and architecture.
