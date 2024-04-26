@@ -1,4 +1,5 @@
 from pytube import YouTube
+import pytube.exceptions
 
 def download(url, filename):
     """
@@ -12,12 +13,15 @@ def download(url, filename):
     str: The path to the downloaded video if successful, or None if an error occurs during download.
     """
     yt = YouTube(url)  # Create a YouTube object using the URL
-    video = yt.streams.filter(file_extension='mp4').get_highest_resolution()  # Select the highest resolution video stream available in MP4 format
 
     try:
+        video = yt.streams.filter(file_extension='mp4').get_highest_resolution()  # Select the highest resolution video stream available in MP4 format
         # Attempt to download the video to the specified file within a 'tmp/' directory
         video.download(filename=f'{filename}.mp4', output_path='tmp/')
         return filename + '.mp4'  # Return the full path to the downloaded video file
+    # if age restricted video
+    except pytube.exceptions.AgeRestrictedError:
+        return None
     except:
         # Return None if any error occurs during the download process
         return None

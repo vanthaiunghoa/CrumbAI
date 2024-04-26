@@ -61,7 +61,7 @@ def create(body, job_id):
         db.create_new_video(job_id, user_id, 'Video is being downloaded.', settings)
         filename = download(youtube_url, job_id)
         if filename is None:
-            db.set_status(user_id, user_id, 'Error downloading the video.')
+            db.set_status(job_id, user_id, 'Error occured while downloading the video. This could be because the video private or age restricted.')
             return
 
         db.set_status(job_id, user_id, 'Currently transcribing the video.')
